@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.dao.BoardDAO;
+import com.app.dto.Board;
 import com.app.dto.Page;
 
 @Service
@@ -14,6 +15,11 @@ public class BoardService {
 	public Page boardList(int currentPage) {
 		Page page = dao.boardList(currentPage);
 		return page;
+	}
+
+	public Board boardView(int bnum) {
+		Board board = dao.boardView(bnum);
+		return board;
 	}
 	
 

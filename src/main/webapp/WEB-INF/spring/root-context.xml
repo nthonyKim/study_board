@@ -23,7 +23,7 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="mapperLocations">
 			<list>
-				<value>classpath:com/app/config/boardMapper.xml</value>
+				<value>classpath:com/app/config/BoardMapper.xml</value>
 			</list>
 		</property>
 		<property name="typeAliases">

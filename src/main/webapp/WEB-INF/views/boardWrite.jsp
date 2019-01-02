@@ -3,5 +3,5 @@
 <script type="text/javascript" src="js/jquery-3.1.0.js"></script> 
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <div class="contents">
-	<jsp:include page="board/boardList.jsp" flush="true" />
+	<jsp:include page="board/boardWrite.jsp" flush="true" />
 </div>
