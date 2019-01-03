@@ -21,6 +21,18 @@ public class BoardService {
 		Board board = dao.boardView(bnum);
 		return board;
 	}
+
+	public void boardInsert(Board board) {
+		dao.boardInsert(board);		
+	}
+
+	public void boardUpdate(Board board) {
+		dao.boardUpdate(board);
+	}
+
+	public void boradDelete(int bnum) {
+		dao.boardDelete(bnum);		
+	}
 	
 
 }

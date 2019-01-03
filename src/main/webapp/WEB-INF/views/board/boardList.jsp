@@ -10,8 +10,11 @@
 						//충격과 공포의 페이징
 						var record = $("#totalCount").val()
 						var total = record / 8;
+						
+						console.log(record)
 						if (record % 8 != 0)
-							total = Math.ceil(total);
+							total = Math.floor(total);
+						console.log(total)
 						var curpage = $("#curpage").val();
 						var paging = "";
 
@@ -40,17 +43,17 @@
 					<th style="width: *">title</th>
 					<th style="width: 10%">author</th>
 					<th style="width: 10%">read</th>
-					<th style="width: 20%">date</th>
+					<th style="width: 10%">date</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="board" items="${page.list}" varStatus="status">
 					<tr>
-						<td class="small">${board.bnum}</td>
+						<td class="small alignC">${board.bnum}</td>
 						<td><a class="aLink" href="boardView?bnum=${board.bnum}">${board.title}</a></td>
-						<td><a class="aLink" href="boardSearch?author=${board.author}">${board.author}</a></td>
-						<td class="small">${board.readcnt}</td>
-						<td class="small">${board.regdate}</td>
+						<td class="alignC"><a class="aLink" href="boardSearch?author=${board.author}">${board.author}</a></td>
+						<td class="small alignC">${board.readcnt}</td>
+						<td class="small alignC">${board.regdate}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

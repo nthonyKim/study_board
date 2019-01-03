@@ -10,7 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="boardList" resultType="Board" parameterType="int">
-		select bnum
+		select
+		bnum
 		, title
 		, author
 		, content
@@ -21,9 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from board
 		order by bnum desc
 	</select>
-	
+
 	<select id="boardView" parameterType="int" resultType="Board">
-	select bnum
+		select bnum
 		, title
 		, author
 		, content
@@ -32,7 +33,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, pub
 		, to_char(regdate, 'YY/MM/DD') regdate
 		from board
-	where bnum = #{bnum}
+		where bnum = #{bnum}
 	</select>
+	
+
+	<insert id="boardInsert" parameterType="Board">
+		insert into board
+		( bnum
+		, title
+		, author
+		, content
+		, imgname
+		, readcnt
+		, pub
+		, regdate)
+		values
+		( board_seq.NEXTVAL
+		, #{title}
+		, #{author}
+		, #{content}
+		, #{imgName}
+		, 0
+		, #{pub}
+		, sysdate
+		)
+	</insert>
+
+	<update id="boardUpdate" parameterType="Board">
+		update board
+		set title = #{title}
+		, content = #{content}
+		, imgname = #{imgName}
+		, pub = #{pub}		
+		where bnum = #{bnum}
+	</update>
+	
+	<delete id="boardDelete" parameterType="int">
+		delete from board
+		where bnum = #{bnum}
+	</delete>
 
 </mapper>
