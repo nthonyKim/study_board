@@ -36,9 +36,9 @@
 			<table class="tbl" border="1">
 				<tr>
 					<th style="width: 10%">public</th>
-					<td style="width: *">공개<input type="radio" value="y" checked="checked" name="pub"> 
+					<td style="width: *" class="small">공개<input type="radio" value="y" checked="checked" name="pub"> 
 						비공개<input type="radio" value="n" name="pub">
-						<span class="small">선택하지 않는 경우 자동으로 공개처리 됩니다.</span></td>
+						<span>선택하지 않는 경우 자동으로 공개처리 됩니다.</span></td>
 				</tr>
 				<tr>
 					<th>author</th>
@@ -56,8 +56,8 @@
 	</div>
 
 	<div class="btnGroup">
-		<a class="btn darkGray underTable" href="boardList">cancel</a>
-		<button class="btn yellow" type="submit">OK</button>
+		<a class="btn darkGray underTable" href="boardList">취소</a>
+		<button class="btn mint" type="submit">완료</button>
 	</div>
 		</form>
 </body>

@@ -7,15 +7,15 @@ import org.apache.ibatis.type.Alias;
 @Alias("Page")
 public class Page {
 	
-	List<Board> list;
-	int currentPage;
-	int perPage = 12;
-	int totalCount;
+	private List<Object> list;
+	private int currentPage;
+	private int perPage = 8;
+	private int totalCount;
 	
-	public List<Board> getList() {
+	public List<Object> getList() {
 		return list;
 	}
-	public void setList(List<Board> list) {
+	public void setList(List<Object> list) {
 		this.list = list;
 	}
 	public int getCurrentPage() {
@@ -41,7 +41,7 @@ public class Page {
 		return "Page [list=" + list + ", currentPage=" + currentPage + ", perPage=" + perPage + ", totalCount="
 				+ totalCount + "]";
 	}
-	public Page(List<Board> list, int currentPage, int perPage, int totalCount) {
+	public Page(List<Object> list, int currentPage, int perPage, int totalCount) {
 		super();
 		this.list = list;
 		this.currentPage = currentPage;

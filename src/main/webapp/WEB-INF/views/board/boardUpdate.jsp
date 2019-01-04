@@ -28,7 +28,8 @@
 
 <body>
 		<form action="boardUpdate" method="post">
-		<input type="hidden" name="imgName" value="null" id="imgName">
+		<input type="hidden" name="imgName" value="none" id="imgName">
+		<input type="hidden" name="bnum" value="${board.bnum}">
 	<div>
 			<table class="tbl" border="1">
 				<tr>				
@@ -48,7 +49,7 @@
 
 	<div class="btnGroup">
 		<a class="btn darkGray underTable" href="boardView?bnum=${board.bnum}">취소</a>		
-		<button class="btn yellow" type="submit">완료</button>
+		<button class="btn mint" type="submit">완료</button>
 	</div>
 		</form>
 </body>

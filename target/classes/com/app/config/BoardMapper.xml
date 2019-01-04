@@ -9,6 +9,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from board
 	</select>
 
+	<select id="totalCountComment" resultType="int" parameterType="int">
+		select count (*)
+		from board_comment
+		where bnum = #{bnum}		
+	</select>
+	
 	<select id="boardList" resultType="Board" parameterType="int">
 		select
 		bnum
@@ -22,7 +28,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from board
 		order by bnum desc
 	</select>
+	
+	<!-- 검색 -->
+	<select id="totalCountAuthor" resultType="int" parameterType="hashmap">
+		select count (*)
+		from board
+		where author = #{author}
+	</select>
 
+	<select id="boardListAuthor" resultType="Board" parameterType="hashmap">
+		select
+		bnum
+		, title
+		, author
+		, content
+		, imgname
+		, readcnt
+		, pub
+		, to_char(regdate, 'YY/MM/DD') regdate
+		from board
+		where author = #{author}
+		order by bnum desc
+	</select>
+
+<!-- <select id="boardView" parameterType="int" resultType="hashmap">
+	select bnum, b.title title, b.author author, b.content content, b.imgname imgname, b.readcnt readcnt, b.pub pub,
+	to_char(b.regdate, 'YY/MM/DD') regdate, cnum, c.author cAuthor,
+	c.content cContent, c.regdate cdate
+	from board b
+	join board_comment c
+	using (bnum)
+	where bnum = #{bnum}
+	order by cnum desc;
+</select> -->
 	<select id="boardView" parameterType="int" resultType="Board">
 		select bnum
 		, title
@@ -35,8 +73,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from board
 		where bnum = #{bnum}
 	</select>
-	
 
+	<select id="boardComment" parameterType="int" resultType="Comment">
+		select bnum
+		, cnum
+		, author
+		, content
+		, to_char(regdate, 'YY/MM/DD') regdate
+		from
+		board_comment
+		where bnum = #{bnum}
+		order by cnum desc
+	</select>
+	
 	<insert id="boardInsert" parameterType="Board">
 		insert into board
 		( bnum
@@ -63,8 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update board
 		set title = #{title}
 		, content = #{content}
-		, imgname = #{imgName}
-		, pub = #{pub}		
+		, imgname = #{imgName}	
 		where bnum = #{bnum}
 	</update>
 	
@@ -72,5 +120,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from board
 		where bnum = #{bnum}
 	</delete>
+	
+	<!-- comment -->
+	<delete id="commentDelete" parameterType="int">
+		delete from board_comment
+		where cnum = #{cnum}
+	</delete>
 
+	<insert id="commentInsert" parameterType="Comment">
+		insert into board_comment
+		( bnum
+		, cnum
+		, author
+		, content
+		, regdate)
+		values
+		( #{bnum} 
+		, comment_seq.NEXTVAL
+		, #{author}
+		, #{content}
+		, sysdate)
+	</insert>
 </mapper>
