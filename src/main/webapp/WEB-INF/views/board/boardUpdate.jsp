@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -8,16 +8,16 @@
 		var title = $("#title");
 		title.focus();		
 
-		// °ø¹é ½Ã submit X
+		// ê³µë°± ì‹œ submit X
 		$("form").on("submit", function(e) {
 			var content = $("#content");
 
 			if (title.val() == "") {
-				alert("Á¦¸ñÀ» ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À");
+				alert("ì œëª©ì„ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤");
 				title.focus();
 				e.preventDefault();
 			} else if (content.val() == "") {
-				alert("³»¿ëÀ» ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À");
+				alert("ë‚´ìš©ì„ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤");
 				content.focus();
 				e.preventDefault();
 			}
@@ -28,7 +28,7 @@
 
 <body>
 		<form action="boardUpdate" method="post">
-		<input type="hidden" name="imgName" value="none" id="imgName">
+		<!-- <input type="hidden" name="imgName" value="none" id="imgName"> -->
 		<input type="hidden" name="bnum" value="${board.bnum}">
 	<div>
 			<table class="tbl" border="1">
@@ -48,8 +48,8 @@
 	</div>
 
 	<div class="btnGroup">
-		<a class="btn darkGray underTable" href="boardView?bnum=${board.bnum}">Ãë¼Ò</a>		
-		<button class="btn mint" type="submit">¿Ï·á</button>
+		<a class="btn darkGray underTable" href="boardView?bnum=${board.bnum}">ì·¨ì†Œ</a>		
+		<button class="btn mint" type="submit">ì™„ë£Œ</button>
 	</div>
 		</form>
 </body>

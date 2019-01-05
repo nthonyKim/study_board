@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.app.dto.Board;
 import com.app.dto.Comment;
 import com.app.dto.Page;
+import com.app.dto.UploadFile;
 
 @Repository
 public class BoardDAO {
@@ -46,7 +47,7 @@ public class BoardDAO {
 		int offset = (currentPage - 1) * page.getPerPage();
 		// page에 담을 list (인덱스부터 perpage 갯수 만큼)
 		List<Object> list = template.selectList("BoardMapper.boardList", null, new RowBounds(offset, page.getPerPage()));
-
+		
 		page.setList(list);
 		page.setCurrentPage(currentPage);
 		int totalCount = totalRecord();
@@ -93,6 +94,7 @@ public class BoardDAO {
 		return page;
 	}
 
+	// comment paging
 	public Page boardComment(int bnum, int cntCurPage) {
 		Page page = new Page();	
 		int offset = (cntCurPage - 1) * page.getPerPage();
@@ -112,5 +114,15 @@ public class BoardDAO {
 	public void commentInsert(Comment cnt) {
 		int n = template.insert("BoardMapper.commentInsert", cnt);		
 	}
+	
+	public void fileInsert(UploadFile imgFile) {
+		int n = template.insert("BoardMapper.fileInsert", imgFile);		
+	}
+
+	public List<UploadFile> fileSelect(int bnum) {
+		List<UploadFile> list = template.selectList("BoardMapper.fileSelect", bnum);
+		return list;
+	}
+
 
 }

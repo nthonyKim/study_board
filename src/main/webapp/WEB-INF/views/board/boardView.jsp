@@ -1,18 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	$(document).ready(function() {
-		//¼öÁ¤
+		//ìˆ˜ì •
 		$("#mod").on("click", function() {
 			var num = $(this).attr("data-bnum");
 			location.href = "boardUpdate?bnum=" + num;
 		})
-		//»èÁ¦
+		//ì‚­ì œ
 		$("#del").on("click", function(e) {
-			var txt = confirm("»èÁ¦ÇÏ½Ã°Ú½À´Ï±î?");
+			var txt = confirm("ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 			if (txt == true) {
 				var num = $(this).attr("data-bnum");
 				location.href = "boardDelete?bnum=" + num;
@@ -21,7 +21,7 @@
 			}	
 		})
 		
-		//´ñ±Û ÆäÀÌÂ¡
+		//ëŒ“ê¸€ í˜ì´ì§•
 		var record = $("#totalCount").val()
 		var total = record / 8;
 		var bnum = "${board.bnum}";
@@ -45,9 +45,9 @@
 		$("p").html(paging);
 	
 		//comment delete
-		$(".cntDel").on("click", function(e) {
+		$(".cmtDel").on("click", function(e) {
 			var cnum = $(this).attr("data-cnum");
-			var txt = confirm("»èÁ¦ÇÏ½Ã°Ú½À´Ï±î?");
+			var txt = confirm("ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 			var temp = $(this);
 			
 			if (txt == true) {
@@ -60,30 +60,28 @@
 					},
 					success : function(data, status, xhr) {
 						if (data == "success") {
-							console.log(data);
-							/* temp.parents().filter("tr").remove();	 */
-							 $("#comment").load(" #comment");
+							console.log(xhr);
+							 $("#comment").load(" #comment");						
+							 /* $("#commentNum"+cnum).remove(); */
 						}	
 					},
 					error : function(xhr, status, error) {						
 						console.log(error);
 					}
 				});
-			}else{
-				e.preventDefault();					
 			}
 		})//
 		
-		//°ø¹é ½Ã submit X
+		//ê³µë°± ì‹œ submit X
 		$("form").on("submit", function(e) {		
 			var author = $("#author");
 			var content = $("#content");
 			if(author.val() == ""){
-				alert("±Û¾´ÀÌ¸¦ ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À");
+				alert("ê¸€ì“´ì´ë¥¼ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤");
 				author.focus();
 				e.preventDefault();
 			}else if(content.val() == ""){
-				alert("³»¿ëÀ» ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À");
+				alert("ë‚´ìš©ì„ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤");
 				content.focus();
 				e.preventDefault();
 			}
@@ -96,7 +94,7 @@
 <body>
 	<div>
 	
-	<!-- º»¹® -->
+	<!-- ë³¸ë¬¸ -->
 		<table class="tbl" border="1">
 			<tr>
 				<td style="width: 10%"><span class="small">${board.bnum}</span></td>
@@ -104,54 +102,69 @@
 						href="boardView?bnum=${board.bnum}">${board.title}</a></span></td>
 			</tr>
 			<tr>
-				<td><a class="aLink small"
-					href="boardSearchAuthor?author=${board.author}">${board.author}</a></td>
+				<td>
+				<%-- <a class="aLink small" href="boardSearchAuthor?author=${board.author}">${board.author}</a> --%>
+				${board.author}
+				</td>
 				<td class="alignR small">${board.readcnt} ${board.regdate}</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<!-- ¿£ÅÍ Ä¡È¯ --> <% pageContext.setAttribute("br", "\n"); %>
+	<!-- ì—”í„° ì¹˜í™˜ --> <%pageContext.setAttribute("br", "\n");%>
 					<div class="bcontent">${fn:replace(board.content, br, "<br/>")}</div>
+	<!-- ì²¨ë¶€íŒŒì¼ ëª©ë¡ -->
+					<c:if test="${!empty file}">
+						<div class="xsmall alignR boxGray">
+							ì²¨ë¶€íŒŒì¼:
+							<c:forEach var="img" items="${file}">
+							${img.oriName}<br>
+							</c:forEach>
+						</div>
+					</c:if>
 				</td>
 			</tr>
+
 		</table>
 		
-	<!-- ´ñ±Û (ÄÚ¸àÆ®) -->
+	<!-- ëŒ“ê¸€ (ì½”ë©˜íŠ¸) -->
 		<div id="comment">
 		<table class="tbl underTable">
-			<c:forEach var="cnt" items="${comment.list}">
-				<tr>
-					<td style="width: 12%" class="small">${cnt.author}</td>
-					<td style="width: *">${cnt.content}</td>
-					<td style="width: 10%" class="small alignC">${cnt.regdate}</td>
+			<c:forEach var="cmt" items="${comment.list}">
+				<tr id="commentNum${cmt.cnum}">
+					<td style="width: 12%" class="small">
+						${cmt.author}</td>
+					<td style="width: *">
+						${cmt.content}</td>
+					<td style="width: 10%" class="small alignC">
+						${cmt.regdate}</td>
 					<td style="width: 10%" class="small alignR">
-						<button data-cnum="${cnt.cnum}" class="cntDel gray">»èÁ¦</button>
+						<button id="cmtDel${cmt.cnum}" data-cnum="${cmt.cnum}" class="gray cmtDel">ì‚­ì œ</button>
 					</td>
 				</tr>
 			</c:forEach>
 		</table>
 		</div>
-	<!-- ÄÚ¸àÆ® ÆäÀÌÂ¡ -->
+	<!-- ì½”ë©˜íŠ¸ í˜ì´ì§• -->
 		<input type="hidden" value="${comment.totalCount}" id="totalCount"> 
 		<input type="hidden" value="${comment.currentPage}" id="curpage">
-		<p class="underTable page">page</p>
-	<!-- ÄÚ¸àÆ® ÀÔ·Â -->
+		<p class="underTable page"></p>
+	<!-- ì½”ë©˜íŠ¸ ì…ë ¥ -->
 		<table class="tbl underTable">
 			<tr>
 			<form action="commentInsert" method="get">
 			<input type="hidden" value="${board.bnum}" name="bnum">
-				<td style="width: 12%"><input type="text" name="author" id="author"></td>
-				<td style="width: *"><input type="text" name="content" id="content"></td>
-				<td style="width: 10%" class="small alignR"><button class="mint" type="submit">¿Ï·á</button></td>
+				<td style="width: 12%"><input type="text" name="author" id="author" placeholder="ê¸€ì“´ì´ë¥¼ ì…ë ¥í•˜ì„¸ìš”"></td>
+				<td style="width: *"><input type="text" name="content" id="content" placeholder="ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”"></td>
+				<td style="width: 10%" class="small alignR"><button class="mint" type="submit">ì™„ë£Œ</button></td>
 				</form>
 			</tr>
 		</table>
 	</div>
 
 	<div class="btnGroup">
-		<a class="btn gray underTable" data-bnum="${board.bnum}" id="mod">¼öÁ¤</a> 
-		<a class="btn gray underTable" data-bnum="${board.bnum}" id="del">»èÁ¦</a>
-		<a class="btn darkGray underTable" href="boardList">¸ñ·Ï</a>
+		<a class="btn gray underTable" data-bnum="${board.bnum}" id="mod">ìˆ˜ì •</a> 
+		<a class="btn gray underTable" data-bnum="${board.bnum}" id="del">ì‚­ì œ</a>
+		<a class="btn darkGray underTable" href="boardList">ëª©ë¡</a>
 	</div>
 </body>
 </html>

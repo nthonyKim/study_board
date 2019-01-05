@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	
 	$(document).ready(function() {
-		//∞Àªˆ
+		//Í≤ÄÏÉâ
 		$("#search").on("keypress", function(e) {
 			if (e.which == 13) {
 				$("form").attr("action", "boardSearch");
@@ -14,13 +14,13 @@
 			}
 		})// 
 		
-		//∆‰¿Ã¬°
+		//ÌéòÏù¥Ïßï
 		var record = $("#totalCount").val()
 		var total = record / 8;
 
 		console.log(record)
 		if (record % 8 != 0)
-			total = Math.floor(total);
+			total = Math.ceil(total);
 		console.log(total)
 		var curpage = $("#curpage").val();
 		var paging = "";
@@ -31,8 +31,7 @@
 				paging = paging + i + "&nbsp;&nbsp;";
 			} else {
 				paging = paging
-						+ "<a href='/190101_board/boardList?currentPage="
-						+ i + "'>" + i + "</a>&nbsp;&nbsp;";
+						+ "<a href='/190101_board/boardList?currentPage=" + i + "'>" + i + "</a>&nbsp;&nbsp;";
 			}
 		}
 		$("p").html(paging);
@@ -56,9 +55,14 @@
 				<c:forEach var="board" items="${page.list}" varStatus="status">
 					<tr>
 						<td class="small alignC">${board.bnum}</td>
-						<td><a class="aLink" href="boardView?bnum=${board.bnum}">${board.title}</a></td>
-						<td class="alignC"><a class="aLink"
-							href="boardSearchAuthor?author=${board.author}">${board.author}</a></td>
+						<td><a class="aLink" href="boardView?bnum=${board.bnum}">${board.title}</a>
+						<c:if test="${board.commentCnt > 0}">
+							<span class="xsmall">${board.commentCnt}</span>
+						</c:if>
+							</td>
+						<td class="alignC">
+<%-- 						<a class="aLink"	href="boardSearchAuthor?author=${board.author}">
+							${board.author}</a> --%>${board.author}</td>
 						<td class="small alignC">${board.readcnt}</td>
 						<td class="small alignC">${board.regdate}</td>
 					</tr>
@@ -67,14 +71,13 @@
 		</table>
 	</div>
 	<div class="btnGroup">
-		<a class="btn darkGray" href="boardList">¿¸√º±€</a> <a class="btn mint"
-			href="boardWrite">±€æ≤±‚</a>
+		<a class="btn darkGray" href="boardList">Ï†ÑÏ≤¥Í∏Ä</a> 
+		<a class="btn mint" href="boardWrite">Í∏ÄÏì∞Í∏∞</a>
 	</div>
-	<!-- ∞Àªˆ πˆ∆∞ √ﬂ∞°«“ ∞Õ -->
+	<!-- Í≤ÄÏÉâ Î≤ÑÌäº Ï∂îÍ∞ÄÌï† Í≤É -->
 	<div class="alignC">
 		<form>
-			<input type="text" name="search" id="search" placeholder="∞ÀªˆæÓ"
-				style="margin-bottom: 14px">
+			<input type="text" name="search" id="search" placeholder="Í≤ÄÏÉâÏñ¥" style="margin-bottom: 14px">
 		</form>
 	</div>
 	<input type="hidden" value="${page.totalCount}" id="totalCount">

@@ -1,26 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	$(document).ready(function() {
-		//°ø¹é ½Ã submit X
+		//ê³µë°± ì‹œ submit X
 		$("form").on("submit", function(e) {		
 			var title = $("#title");
 			var author = $("#author");
 			var content = $("#content");
 						
 			if (title.val() == "") {
-				alert("Á¦¸ñÀ» ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À");
+				alert("ì œëª©ì„ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤");
 				title.focus();
 				e.preventDefault();
 			}else if(author.val() == ""){
-				alert("±Û¾´ÀÌ¸¦ ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À");
+				alert("ê¸€ì“´ì´ë¥¼ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤");
 				author.focus();
 				e.preventDefault();
 			}else if(content.val() == ""){
-				alert("³»¿ëÀ» ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À");
+				alert("ë‚´ìš©ì„ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤");
 				content.focus();
 				e.preventDefault();
 			}
@@ -30,34 +30,38 @@
 </script>
 
 <body>
-		<form action="boardWrite" method="post">
-		<input type="hidden" name="imgName" value="null" id="imgName">
+		<form action="boardWrite" method="post" enctype="multipart/form-data">
+		<!-- <input type="hidden" name="imgName" value="null" id="imgName"> -->
 	<div>
 			<table class="tbl" border="1">
 				<tr>
 					<th style="width: 10%">public</th>
-					<td style="width: *" class="small">°ø°³<input type="radio" value="y" checked="checked" name="pub"> 
-						ºñ°ø°³<input type="radio" value="n" name="pub">
-						<span>¼±ÅÃÇÏÁö ¾Ê´Â °æ¿ì ÀÚµ¿À¸·Î °ø°³Ã³¸® µË´Ï´Ù.</span></td>
+					<td style="width: *" class="small">ê³µê°œ<input type="radio" value="y" checked="checked" name="pub"> 
+						ë¹„ê³µê°œ<input type="radio" value="n" name="pub">
+						<span>ì„ íƒí•˜ì§€ ì•ŠëŠ” ê²½ìš° ìë™ìœ¼ë¡œ ê³µê°œì²˜ë¦¬ ë©ë‹ˆë‹¤.</span></td>
 				</tr>
 				<tr>
 					<th>author</th>
-					<td><input type="text" name="author" id="author" placeholder="±Û¾´ÀÌ¸¦ ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À"></td>
+					<td><input type="text" name="author" id="author" placeholder="ê¸€ì“´ì´ë¥¼ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤"></td>
 				</tr>
 				<tr>
 					<th>title</th>
-					<td><input type="text" name="title" id="title" placeholder="Á¦¸ñÀ» ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À"></td>
+					<td><input type="text" name="title" id="title" placeholder="ì œëª©ì„ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤"></td>
 				</tr>
 
 				<tr>
 					<td colspan="2"><textarea name="content" id="content" class="bcontent"></textarea></td>
 				</tr>
+				<tr>
+				<td colspan="2">
+					<input type="file" name="theFile" multiple="multiple"></td>
+				</tr>
 			</table>
 	</div>
 
 	<div class="btnGroup">
-		<a class="btn darkGray underTable" href="boardList">Ãë¼Ò</a>
-		<button class="btn mint" type="submit">¿Ï·á</button>
+		<a class="btn darkGray underTable" href="boardList">ì·¨ì†Œ</a>
+		<button class="btn mint" type="submit">ì™„ë£Œ</button>
 	</div>
 		</form>
 </body>

@@ -20,12 +20,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		bnum
 		, title
 		, author
-		, content
-		, imgname
+		, content		
 		, readcnt
 		, pub
 		, to_char(regdate, 'YY/MM/DD') regdate
-		from board
+		, (select count(*) from board_comment c where c.bnum = b.bnum) commentCnt
+		from board b
 		order by bnum desc
 	</select>
 	
@@ -42,11 +42,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, title
 		, author
 		, content
-		, imgname
 		, readcnt
 		, pub
 		, to_char(regdate, 'YY/MM/DD') regdate
-		from board
+		, (select count(*) from board_comment c where c.bnum = b.bnum) commentCnt
+		from board b
 		where author = #{author}
 		order by bnum desc
 	</select>
@@ -66,10 +66,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, title
 		, author
 		, content
-		, imgname
 		, readcnt
 		, pub
-		, to_char(regdate, 'YY/MM/DD') regdate
+		, to_char(regdate, 'YY/MM/DD hh:mm:ss') regdate
 		from board
 		where bnum = #{bnum}
 	</select>
@@ -79,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, cnum
 		, author
 		, content
-		, to_char(regdate, 'YY/MM/DD') regdate
+		, to_char(regdate, 'YY/MM/DD hh:mm:ss') regdate
 		from
 		board_comment
 		where bnum = #{bnum}
@@ -92,7 +91,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, title
 		, author
 		, content
-		, imgname
 		, readcnt
 		, pub
 		, regdate)
@@ -101,7 +99,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, #{title}
 		, #{author}
 		, #{content}
-		, #{imgName}
 		, 0
 		, #{pub}
 		, sysdate
@@ -112,7 +109,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update board
 		set title = #{title}
 		, content = #{content}
-		, imgname = #{imgName}	
 		where bnum = #{bnum}
 	</update>
 	
@@ -141,4 +137,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, #{content}
 		, sysdate)
 	</insert>
+	
+	<!-- file upload -->
+	<insert id="fileInsert" parameterType="UploadFile">
+		insert into board_file
+		( bnum
+		, fnum
+		, oriName
+		, savName)
+		values
+		( (select max(bnum+1) from board)
+		, file_seq.nextval
+		, #{oriName}
+		, #{savName})
+	</insert>
+	
+	<select id="fileSelect" parameterType="int" resultType="UploadFile">
+		select *
+		from board_file
+		where bnum = #{bnum}
+		order by fnum desc
+	</select>
+	
 </mapper>

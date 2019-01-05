@@ -33,6 +33,7 @@
 				<value>com.app.dto.Board</value>
 				<value>com.app.dto.Page</value>
 				<value>com.app.dto.Comment</value>
+				<value>com.app.dto.UploadFile</value>
 			</list>
 		</property>
 		<property name="dataSource" ref="dataSource" />

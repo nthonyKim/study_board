@@ -28,7 +28,7 @@
 
 	<!-- view -->
 	<mvc:view-controller view-name="home" path="/" />
-<!-- 	<mvc:view-controller view-name="boardUpdate" path="/boardUpdate" /> -->  
+
 
 	<!-- resource -->
 	<mvc:resources mapping="/images/**" location="/WEB-INF/views/images/"/>
