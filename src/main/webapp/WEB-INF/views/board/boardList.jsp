@@ -9,38 +9,44 @@
 		//검색
 		$("#search").on("keypress", function(e) {
 			if (e.which == 13) {
-				$("form").attr("action", "boardSearch");
+				
+				$("form").attr("action", "boardList");
 				$(this).submit();
 			}
 		})// 
 		
 		//페이징
-		var record = $("#totalCount").val()
+		var record = "${page.totalCount}"
 		var total = record / 8;
-
-		console.log(record)
+		var sea = "${searching.search}"
+		var key = "${searching.keyWord}"
+		var curpage = "${page.currentPage}";
+		
+		console.log(sea, key)
 		if (record % 8 != 0)
 			total = Math.ceil(total);
 		console.log(total)
-		var curpage = $("#curpage").val();
 		var paging = "";
 
 		for (var i = 1; i <= total; i++) {
 			console.log(i);
 			if (i == curpage) {
 				paging = paging + i + "&nbsp;&nbsp;";
-			} else {
+			} else if(sea != "" || key != ""){
+				paging = paging
+				+ "<a href='/190101_board/boardList?search="+sea+"&keyWord="+key+"&currentPage=" + i + "'>" + i + "</a>&nbsp;&nbsp;";
+			} else{
 				paging = paging
 						+ "<a href='/190101_board/boardList?currentPage=" + i + "'>" + i + "</a>&nbsp;&nbsp;";
 			}
 		}
-		$("p").html(paging);
+		$(".page").html(paging);
 
 	})
 </script>
 
 <body>
-	<div>
+	<div id="bList">
 		<table class="tbl" border="1">
 			<thead>
 				<tr>
@@ -61,27 +67,31 @@
 						</c:if>
 							</td>
 						<td class="alignC">
-<%-- 						<a class="aLink"	href="boardSearchAuthor?author=${board.author}">
-							${board.author}</a> --%>${board.author}</td>
+ 						<a class="aLink search">${board.author}</a>
+							<%-- ${board.author} --%></td>
 						<td class="small alignC">${board.readcnt}</td>
 						<td class="small alignC">${board.regdate}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-	</div>
 	<div class="btnGroup">
 		<a class="btn darkGray" href="boardList">전체글</a> 
 		<a class="btn mint" href="boardWrite">글쓰기</a>
 	</div>
 	<!-- 검색 버튼 추가할 것 -->
 	<div class="alignC">
-		<form>
-			<input type="text" name="search" id="search" placeholder="검색어" style="margin-bottom: 14px">
-		</form>
-	</div>
-	<input type="hidden" value="${page.totalCount}" id="totalCount">
-	<input type="hidden" value="${page.currentPage}" id="curpage">
+			<form method="get">
+			<div class="searchBox">
+				<select name="search">
+					<option selected="selected" value="author">글쓴이</option>
+					<option value="title">제목</option>
+					<option value="title_content">제목+내용</option>
+				</select> <input type="text" name="keyWord" id="search" placeholder="검색어" style="margin-bottom: 14px">
+			</div>
+			</form>
+		</div>
 	<p class="underTable page">page</p>
+	</div>
 </body>
 </html>

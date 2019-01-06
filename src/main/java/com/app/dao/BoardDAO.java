@@ -1,5 +1,7 @@
 package com.app.dao;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,10 +9,12 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.app.dto.Board;
 import com.app.dto.Comment;
 import com.app.dto.Page;
+import com.app.dto.Searching;
 import com.app.dto.UploadFile;
 
 @Repository
@@ -24,14 +28,14 @@ public class BoardDAO {
 		return n;
 	}
 	
-	public int totalRecordParam(HashMap<String, Object> map) {
-		int n = 0;
-		if(map.get("author") != null) {
-			n = template.selectOne("BoardMapper.totalCountAuthor", map);	
-		}else if(map.get("title") != null) {
-			
-		}else if(map.get("content") != null) {
-			
+	public int totalRecordParam(Searching srh) {
+		int n = 0;		
+		if(srh.getSearch().equals("author")) {
+			n = template.selectOne("BoardMapper.totalCountAuthor", srh);	
+		}else if(srh.getSearch().equals("title")) {
+			n = template.selectOne("BoardMapper.totalCountTitle", srh);	
+		}else if(srh.getSearch().equals("title_content")) {
+			n = template.selectOne("BoardMapper.totalCountTicon", srh);	
 		}
 		return n;
 	}
@@ -39,20 +43,6 @@ public class BoardDAO {
 	public int totalRecordComment(int bnum) {
 		int n = template.selectOne("BoardMapper.totalCountComment", bnum);
 		return n;
-	}
-
-	public Page boardList(int currentPage) {
-		Page page = new Page();
-		// offset 데이터 인덱스 값
-		int offset = (currentPage - 1) * page.getPerPage();
-		// page에 담을 list (인덱스부터 perpage 갯수 만큼)
-		List<Object> list = template.selectList("BoardMapper.boardList", null, new RowBounds(offset, page.getPerPage()));
-		
-		page.setList(list);
-		page.setCurrentPage(currentPage);
-		int totalCount = totalRecord();
-		page.setTotalCount(totalCount);
-		return page;
 	}
 
 	public Board boardView(int bnum) {
@@ -73,21 +63,29 @@ public class BoardDAO {
 	}
 
 	public Page boardList(HashMap<String, Object> map) {
-		Page page = new Page();
 		int currentPage = (Integer) map.get("currentPage");		
+		Searching srh = (Searching) map.get("search");
+		
+		Page page = new Page();
 		int offset = (currentPage - 1) * page.getPerPage();
 		List<Object> list = null;
 		int totalCount = 0;
 		
-		if(map.get("author") != null) {
-		list = template.selectList("BoardMapper.boardListAuthor", map, new RowBounds(offset, page.getPerPage()));
-		totalCount = totalRecordParam(map);
-		}else if(map.get("title") != null) {
-			
-		}else if(map.get("content") != null) {
-			
+		if(srh.getKeyWord() == null || srh.getSearch() == null){
+			list = template.selectList("BoardMapper.boardList", null, new RowBounds(offset, page.getPerPage()));
+			totalCount = totalRecord();
+		}else {
+			if(srh.getSearch().equals("author")) {				
+				list = template.selectList("BoardMapper.boardSearchAuthor", srh, new RowBounds(offset, page.getPerPage()));		
+				totalCount = totalRecordParam(srh);				
+			}else if(srh.getSearch().equals("title")) {
+				list = template.selectList("BoardMapper.boardSearchTitle", srh, new RowBounds(offset, page.getPerPage()));		
+				totalCount = totalRecordParam(srh);
+			}else if(srh.getSearch().equals("title_content")) {
+				list = template.selectList("BoardMapper.boardSearchTicon", srh, new RowBounds(offset, page.getPerPage()));		
+				totalCount = totalRecordParam(srh);
+			}
 		}
-
 		page.setList(list);
 		page.setCurrentPage(currentPage);
 		page.setTotalCount(totalCount);
@@ -116,6 +114,32 @@ public class BoardDAO {
 	}
 	
 	public void fileInsert(UploadFile imgFile) {
+		for (CommonsMultipartFile f : imgFile.getTheFile()) {
+			String path = "F:\\programming\\upload";
+			String oriName = f.getOriginalFilename();
+			
+			System.out.println("boardInsert       "+oriName);
+
+			// 파일명 암호화 확장자 분리하고 Uuid 값으로 치환
+			String extension = oriName.substring(oriName.lastIndexOf('.'));
+			String savName = imgFile.getUuid() + extension;
+
+			// 저장 경로 설정
+			File location = new File(path, savName);
+			
+			imgFile.setSavName(savName);
+			imgFile.setOriName(oriName);
+			
+			try {
+				f.transferTo(location);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}		
 		int n = template.insert("BoardMapper.fileInsert", imgFile);		
 	}
 
@@ -123,6 +147,12 @@ public class BoardDAO {
 		List<UploadFile> list = template.selectList("BoardMapper.fileSelect", bnum);
 		return list;
 	}
+
+	public void readCnt(int bnum) {
+		int n = template.update("BoardMapper.readCnt", bnum);	
+	}
+
+
 
 
 }

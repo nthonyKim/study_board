@@ -28,6 +28,7 @@
 
 	<!-- view -->
 	<mvc:view-controller view-name="home" path="/" />
+	<mvc:view-controller view-name="boardList" path="/boardlist" />
 
 
 	<!-- resource -->

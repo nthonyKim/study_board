@@ -34,6 +34,7 @@
 				<value>com.app.dto.Page</value>
 				<value>com.app.dto.Comment</value>
 				<value>com.app.dto.UploadFile</value>
+				<value>com.app.dto.Searching</value>
 			</list>
 		</property>
 		<property name="dataSource" ref="dataSource" />

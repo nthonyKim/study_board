@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -21,28 +21,48 @@
 			}	
 		})
 		
-		//댓글 페이징
-		var record = $("#totalCount").val()
-		var total = record / 8;
-		var bnum = "${board.bnum}";
-
-		if (record % 8 != 0)
-			total = Math.ceil(total);
-		console.log(total)
-		var curpage = $("#curpage").val();
-		var paging = "";
-
-		for (var i = 1; i <= total; i++) {
-			console.log(i);
-			if (i == curpage) {
-				paging = paging + i + "&nbsp;&nbsp;";
-			} else {
-				paging = paging
-						+ "<a href='/190101_board/boardView?bnum="+bnum+"&cntCurPage="
-						+ i + "'>" + i + "</a>&nbsp;&nbsp;";
+		//목록
+		$("#list").on("click", function(e) {
+			var sea = "${searching.search}"
+			var key = "${searching.keyWord}"
+			var cup = "${page.currentPage}"
+			if (sea == "" || key == ""){
+				console.log("empty")
+				location.href = "boardList?currentPage="+cup;
+			}else{
+				location.href = "boardList?search="+sea+"&keyWord="+key+"&currentPage="+cup;
 			}
+		})
+		
+		//댓글 페이징
+		var cmtPaging = function(){
+			var record = "${comment.totalCount}"
+				var total = record / 8;
+				var bnum = "${board.bnum}";
+
+				if (record % 8 != 0){
+					total = Math.ceil(total)
+					};
+				console.log(total)
+				var curpage = $("#curpage").val();
+				var paging = "";
+
+				for (var i = 1; i <= total; i++) {
+					console.log(i);
+					if (i == curpage) {
+						paging = paging + i + "&nbsp;&nbsp;";
+					} else if(i % 10 == 0){
+												
+					} else {
+						paging = paging
+								+ "<a href='/190101_board/boardView?bnum="+bnum+"&cntCurPage="
+								+ i + "'>" + i + "</a>&nbsp;&nbsp;";
+					}
+				}
+				$(".page").html(paging);
 		}
-		$("p").html(paging);
+		cmtPaging();
+		
 	
 		//comment delete
 		$(".cmtDel").on("click", function(e) {
@@ -60,9 +80,9 @@
 					},
 					success : function(data, status, xhr) {
 						if (data == "success") {
-							console.log(xhr);
-							 $("#comment").load(" #comment");						
-							 /* $("#commentNum"+cnum).remove(); */
+/* 					 	 $("#commentNum"+cnum).remove(); */
+							alert("삭제되었습니다.")
+ 						 $("#comment").load(" #comment"); 						
 						}	
 					},
 					error : function(xhr, status, error) {						
@@ -72,16 +92,17 @@
 			}
 		})//
 		
+		
 		//공백 시 submit X
-		$("form").on("submit", function(e) {		
+		$("#cmtSub").on("submit", function(e) {		
 			var author = $("#author");
 			var content = $("#content");
 			if(author.val() == ""){
-				alert("글쓴이를 입력해 주십시오");
+				alert("글쓴이를 입력하세요");
 				author.focus();
 				e.preventDefault();
 			}else if(content.val() == ""){
-				alert("내용을 입력해 주십시오");
+				alert("내용을 입력하세요");
 				content.focus();
 				e.preventDefault();
 			}
@@ -110,8 +131,8 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-	<!-- 엔터 치환 --> <%pageContext.setAttribute("br", "\n");%>
-					<div class="bcontent">${fn:replace(board.content, br, "<br/>")}</div>
+				<%-- <div class="bcontent">${fn:escapeXml(board.content)}</div> --%>
+ 					<div class="bcontent"><c:out value="${board.content}" escapeXml="false" /></div>
 	<!-- 첨부파일 목록 -->
 					<c:if test="${!empty file}">
 						<div class="xsmall alignR boxGray">
@@ -127,6 +148,7 @@
 		</table>
 		
 	<!-- 댓글 (코멘트) -->
+	<div id="commentContainer">
 		<div id="comment">
 		<table class="tbl underTable">
 			<c:forEach var="cmt" items="${comment.list}">
@@ -143,15 +165,16 @@
 				</tr>
 			</c:forEach>
 		</table>
-		</div>
+
 	<!-- 코멘트 페이징 -->
-		<input type="hidden" value="${comment.totalCount}" id="totalCount"> 
 		<input type="hidden" value="${comment.currentPage}" id="curpage">
 		<p class="underTable page"></p>
+		</div>
+	</div>
 	<!-- 코멘트 입력 -->
 		<table class="tbl underTable">
 			<tr>
-			<form action="commentInsert" method="get">
+			<form action="commentInsert" method="get" id="cmtSub">
 			<input type="hidden" value="${board.bnum}" name="bnum">
 				<td style="width: 12%"><input type="text" name="author" id="author" placeholder="글쓴이를 입력하세요"></td>
 				<td style="width: *"><input type="text" name="content" id="content" placeholder="내용을 입력하세요"></td>
@@ -163,8 +186,9 @@
 
 	<div class="btnGroup">
 		<a class="btn gray underTable" data-bnum="${board.bnum}" id="mod">수정</a> 
-		<a class="btn gray underTable" data-bnum="${board.bnum}" id="del">삭제</a>
-		<a class="btn darkGray underTable" href="boardList">목록</a>
+		<a class="btn gray underTable" data-bnum="${board.bnum}" id="del">삭제</a>	
+		<a class="btn darkGray underTable" id="list">목록</a>
 	</div>
+	<div id="bListContainer"></div>		
 </body>
 </html>

@@ -22,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.app.dto.Board;
 import com.app.dto.Comment;
 import com.app.dto.Page;
+import com.app.dto.Searching;
 import com.app.dto.UploadFile;
 import com.app.service.BoardService;
 
@@ -31,26 +32,20 @@ public class BoardController {
 	BoardService service;
 
 	@RequestMapping("/boardList")
-	public String boardList(@RequestParam(required = false, defaultValue = "1") int currentPage, Model model) {
-		Page page = service.boardList(currentPage);
-		model.addAttribute("page", page);
+	public String boardList(@RequestParam(required = false, defaultValue = "1") int currentPage, HttpSession session, Searching search) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("currentPage", currentPage);
+		map.put("search", search);
+		
+		Page page = service.boardList(map);
+		session.setAttribute("page", page);
+		session.setAttribute("searching", search);
 		return "boardList";
 	}
 
-/*	@RequestMapping("/boardSearchAuthor")
-	public String boardSearchAuthor (@RequestParam String author, 
-									 @RequestParam(required = false, defaultValue = "1") int currentPage, Model model) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("author", author);
-		map.put("currentPage", currentPage);
-		
-		Page page = service.boardList(map);
-		model.addAttribute("page", page);
-		return "boardList";
-	}*/
-
 	@RequestMapping("/boardView")
-	public String boardView(@RequestParam int bnum, Model model, @RequestParam(required = false, defaultValue = "1") int cntCurPage) {
+	public String boardView(@RequestParam(required = false, defaultValue = "1") int cntCurPage, @RequestParam int bnum, Model model) {
 		Board board = service.boardView(bnum);
 		
 		//코멘트 페이지
@@ -73,36 +68,11 @@ public class BoardController {
 
 	@RequestMapping(value = "/boardWrite", method = RequestMethod.POST)
 	public String boardInsert(UploadFile imgFile, Board board) {
-		
-		if (imgFile.getTheFile().length > 1) {			
-			for (CommonsMultipartFile f : imgFile.getTheFile()) {
-				String path = "F:\\programming\\upload";
-				String oriName = f.getOriginalFilename();
-				
-				System.out.println(oriName);
-
-				// 파일명 암호화 확장자 분리하고 Uuid 값으로 치환
-				String extension = oriName.substring(oriName.lastIndexOf('.'));
-				String savName = imgFile.getUuid() + extension;
-
-				// 저장 경로 설정
-				File location = new File(path, savName);
-				
-				imgFile.setSavName(savName);
-				imgFile.setOriName(oriName);
-				
-				service.fileInsert(imgFile, board);	
-				
-				try {
-					f.transferTo(location);
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+		CommonsMultipartFile chk = imgFile.getTheFile()[0];
+		System.out.println(chk.getOriginalFilename());
+		System.out.println(board);
+		if (chk.getOriginalFilename() != "theFile" ) {		
+			service.fileInsert(imgFile, board);				
 		}else {
 			service.boardInsert(board);			
 		}

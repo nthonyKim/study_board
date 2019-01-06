@@ -18,18 +18,15 @@ public class BoardService {
 	@Autowired
 	BoardDAO dao;
 
-	public Page boardList(int currentPage) {
-		Page page = dao.boardList(currentPage);
-		return page;
-	}
-
 	public Page boardList(HashMap<String, Object> map) {
 		Page page = dao.boardList(map);
 		return page;
 	}
 
+	@Transactional
 	public Board boardView(int bnum) {
-		Board board = dao.boardView(bnum);
+		Board board = dao.boardView(bnum);		
+		dao.readCnt(bnum);
 		return board;
 	}
 

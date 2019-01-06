@@ -5,25 +5,26 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	$(document).ready(function() {
+		CKEDITOR.replace( 'content' );
 		//공백 시 submit X
 		$("form").on("submit", function(e) {		
 			var title = $("#title");
 			var author = $("#author");
 			var content = $("#content");
-						
+			var cke = CKEDITOR.instances['content'].getData();
 			if (title.val() == "") {
-				alert("제목을 입력해 주십시오");
+				alert("제목을 입력하세요");
 				title.focus();
 				e.preventDefault();
 			}else if(author.val() == ""){
-				alert("글쓴이를 입력해 주십시오");
+				alert("글쓴이를 입력하세요");
 				author.focus();
 				e.preventDefault();
-			}else if(content.val() == ""){
-				alert("내용을 입력해 주십시오");
+			} else if(cke == ""){
+				alert("내용을 입력하세요");
 				content.focus();
 				e.preventDefault();
-			}
+			} 
 		})
 		
 	})
@@ -42,11 +43,11 @@
 				</tr>
 				<tr>
 					<th>author</th>
-					<td><input type="text" name="author" id="author" placeholder="글쓴이를 입력해 주십시오"></td>
+					<td><input type="text" name="author" id="author" placeholder="글쓴이를 입력하세요"></td>
 				</tr>
 				<tr>
 					<th>title</th>
-					<td><input type="text" name="title" id="title" placeholder="제목을 입력해 주십시오"></td>
+					<td><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></td>
 				</tr>
 
 				<tr>
@@ -64,5 +65,9 @@
 		<button class="btn mint" type="submit">완료</button>
 	</div>
 		</form>
+		
+		<script>
+        	
+        </script>
 </body>
 </html>

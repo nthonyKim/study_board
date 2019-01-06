@@ -10,13 +10,13 @@
 
 		// 공백 시 submit X
 		$("form").on("submit", function(e) {
-			var content = $("#content");
+			var cke = CKEDITOR.instances['content'].getData();
 
 			if (title.val() == "") {
 				alert("제목을 입력해 주십시오");
 				title.focus();
 				e.preventDefault();
-			} else if (content.val() == "") {
+			} else if (cke == "") {
 				alert("내용을 입력해 주십시오");
 				content.focus();
 				e.preventDefault();
@@ -27,30 +27,37 @@
 </script>
 
 <body>
-		<form action="boardUpdate" method="post">
+	<form action="boardUpdate" method="post">
 		<!-- <input type="hidden" name="imgName" value="none" id="imgName"> -->
 		<input type="hidden" name="bnum" value="${board.bnum}">
-	<div>
+		<div>
 			<table class="tbl" border="1">
-				<tr>				
+				<tr>
 					<th style="width: 10%">author</th>
 					<td style="width: *">${board.author}</td>
 				</tr>
 				<tr>
 					<th>title</th>
-					<td><input type="text" value="${board.title}" name="title" id="title"></td>
+					<td><input type="text" value="${board.title}" name="title"
+						id="title"></td>
 				</tr>
 
 				<tr>
 					<td colspan="2"><textarea name="content" id="content" class="bcontent">${board.content}</textarea></td>
 				</tr>
+				<tr>
+					<td colspan="2"><input type="file" name="theFile" multiple="multiple"></td>
+				</tr>
 			</table>
-	</div>
+		</div>
 
-	<div class="btnGroup">
-		<a class="btn darkGray underTable" href="boardView?bnum=${board.bnum}">취소</a>		
-		<button class="btn mint" type="submit">완료</button>
-	</div>
-		</form>
+		<div class="btnGroup">
+			<a class="btn darkGray underTable" href="boardView?bnum=${board.bnum}">취소</a>
+			<button class="btn mint" type="submit">완료</button>
+		</div>
+	</form>
+	<script>
+		CKEDITOR.replace('content');
+	</script>
 </body>
 </html>

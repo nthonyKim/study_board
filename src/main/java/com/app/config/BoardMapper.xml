@@ -30,13 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 검색 -->
-	<select id="totalCountAuthor" resultType="int" parameterType="hashmap">
+	<select id="totalCountAuthor" resultType="int" parameterType="Searching">
 		select count (*)
-		from board
-		where author = #{author}
+		from board		
+		where UPPER(author) like UPPER('%'||#{keyWord}||'%')
 	</select>
 
-	<select id="boardListAuthor" resultType="Board" parameterType="hashmap">
+	<select id="boardSearchAuthor" resultType="Board" parameterType="Searching">
 		select
 		bnum
 		, title
@@ -47,7 +47,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, to_char(regdate, 'YY/MM/DD') regdate
 		, (select count(*) from board_comment c where c.bnum = b.bnum) commentCnt
 		from board b
-		where author = #{author}
+		where UPPER(b.author) like UPPER('%'||#{keyWord}||'%')
+		order by bnum desc
+	</select>
+	
+	<select id="totalCountTitle" resultType="int" parameterType="Searching">
+		select count (*)
+		from board		
+		where UPPER(title) like UPPER('%'||#{keyWord}||'%')
+	</select>
+
+	<select id="boardSearchTitle" resultType="Board" parameterType="Searching">
+		select
+		bnum
+		, title
+		, author
+		, content
+		, readcnt
+		, pub
+		, to_char(regdate, 'YY/MM/DD') regdate
+		, (select count(*) from board_comment c where c.bnum = b.bnum) commentCnt
+		from board b
+		where UPPER(b.title) like UPPER('%'||#{keyWord}||'%')
+		order by bnum desc
+	</select>
+	
+	<select id="totalCountTicon" resultType="int" parameterType="Searching">
+		select count (*)
+		from board		
+		where UPPER(title) like UPPER('%'||#{keyWord}||'%')
+		or UPPER(content) like UPPER('%'||#{keyWord}||'%')
+	</select>
+
+	<select id="boardSearchTicon" resultType="Board" parameterType="Searching">
+		select
+		bnum
+		, title
+		, author
+		, content
+		, readcnt
+		, pub
+		, to_char(regdate, 'YY/MM/DD') regdate
+		, (select count(*) from board_comment c where c.bnum = b.bnum) commentCnt
+		from board b
+		where UPPER(b.title) like UPPER('%'||#{keyWord}||'%')
+		or UPPER(b.content) like UPPER('%'||#{keyWord}||'%')
 		order by bnum desc
 	</select>
 
@@ -61,6 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where bnum = #{bnum}
 	order by cnum desc;
 </select> -->
+
 	<select id="boardView" parameterType="int" resultType="Board">
 		select bnum
 		, title
@@ -96,8 +141,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, regdate)
 		values
 		( board_seq.NEXTVAL
-		, #{title}
-		, #{author}
+		, trim(#{title})
+		, trim(#{author})
 		, #{content}
 		, 0
 		, #{pub}
@@ -107,8 +152,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="boardUpdate" parameterType="Board">
 		update board
-		set title = #{title}
-		, content = #{content}
+		set title = trim(#{title})
+		, content = trim(#{author})
 		where bnum = #{bnum}
 	</update>
 	
@@ -158,5 +203,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where bnum = #{bnum}
 		order by fnum desc
 	</select>
+	
+	<update id="readCnt" parameterType="int">
+		update board set readcnt = readcnt+1
+        where bnum = #{bnum}
+	</update>
 	
 </mapper>
