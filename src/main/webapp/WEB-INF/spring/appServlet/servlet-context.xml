@@ -12,6 +12,14 @@
 	<!-- anno -->
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/loginCheck/**"/>
+			<ref bean="LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+		<bean id="LoginInterceptor" class="com.app.interceptor.LoginInterceptor"/>
 
 	<!-- JSP 전담 ViewResolver -->
 	<bean
@@ -27,9 +35,10 @@
 	</bean>
 
 	<!-- view -->
-	<mvc:view-controller view-name="home" path="/" />
-	<mvc:view-controller view-name="boardList" path="/boardlist" />
-
+	<mvc:view-controller view-name="boardList" path="/" />
+	<mvc:view-controller view-name="loginForm" path="/loginForm" />
+	<mvc:view-controller view-name="memberForm" path="/memberForm" />
+	<mvc:view-controller view-name="myPage" path="/myPage" />
 
 	<!-- resource -->
 	<mvc:resources mapping="/images/**" location="/WEB-INF/views/images/"/>

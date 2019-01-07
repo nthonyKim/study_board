@@ -61,7 +61,19 @@
 				<c:forEach var="board" items="${page.list}" varStatus="status">
 					<tr>
 						<td class="small alignC">${board.bnum}</td>
-						<td><a class="aLink" href="boardView?bnum=${board.bnum}">${board.title}</a>
+						<td>							
+						<c:choose>
+							<c:when test="${board.pub == 'y' }">
+								<a class="aLink" href="boardView?bnum=${board.bnum}">${board.title}</a>
+							</c:when>
+							<c:when test="${board.pub == 'n' }">
+								관리자와 작성자만 볼 수 있는 게시글 입니다.
+							</c:when>
+							<c:when test="${user.userid == 'admin' || user.userid == board.author}">
+								<a class="aLink" href="boardView?bnum=${board.bnum}">${board.title}</a>
+							</c:when>								
+						</c:choose>							
+							
 						<c:if test="${board.commentCnt > 0}">
 							<span class="xsmall">${board.commentCnt}</span>
 						</c:if>

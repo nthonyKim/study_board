@@ -3,6 +3,8 @@
 <script type="text/javascript" src="js/jquery-3.1.0.js"></script> 
 <script src="//cdn.ckeditor.com/4.11.1/basic/ckeditor.js"></script>
 <link rel="stylesheet" type="text/css" href="css/common.css" />
+<div class="wrap">
+<div class="top"><jsp:include page="common/top.jsp" flush="true"/></div>
 <div class="contents">
 	<jsp:include page="board/boardUpdate.jsp" flush="true" />
-</div>
+</div></div>

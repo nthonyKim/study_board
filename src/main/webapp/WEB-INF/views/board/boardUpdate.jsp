@@ -8,6 +8,8 @@
 		var title = $("#title");
 		title.focus();		
 
+		var con = "${board.content}"
+		CKEDITOR.instances['content'].setData(con);
 		// 공백 시 submit X
 		$("form").on("submit", function(e) {
 			var cke = CKEDITOR.instances['content'].getData();
@@ -28,22 +30,19 @@
 
 <body>
 	<form action="boardUpdate" method="post">
-		<!-- <input type="hidden" name="imgName" value="none" id="imgName"> -->
 		<input type="hidden" name="bnum" value="${board.bnum}">
 		<div>
 			<table class="tbl" border="1">
 				<tr>
 					<th style="width: 10%">author</th>
-					<td style="width: *">${board.author}</td>
+					<td style="width: *"><input type="text" value="${board.author}" name="author" onfocus="this.blur()" readonly="readonly" ></td>
 				</tr>
 				<tr>
 					<th>title</th>
-					<td><input type="text" value="${board.title}" name="title"
-						id="title"></td>
+					<td><input type="text" value="${board.title}" name="title" id="title"></td>
 				</tr>
-
 				<tr>
-					<td colspan="2"><textarea name="content" id="content" class="bcontent">${board.content}</textarea></td>
+					<td colspan="2"><textarea name="content" id="content" class="bcontent"></textarea></td>
 				</tr>
 				<tr>
 					<td colspan="2"><input type="file" name="theFile" multiple="multiple"></td>

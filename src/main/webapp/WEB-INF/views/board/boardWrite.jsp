@@ -32,7 +32,6 @@
 
 <body>
 		<form action="boardWrite" method="post" enctype="multipart/form-data">
-		<!-- <input type="hidden" name="imgName" value="null" id="imgName"> -->
 	<div>
 			<table class="tbl" border="1">
 				<tr>
@@ -65,9 +64,6 @@
 		<button class="btn mint" type="submit">완료</button>
 	</div>
 		</form>
-		
-		<script>
-        	
-        </script>
+	
 </body>
 </html>

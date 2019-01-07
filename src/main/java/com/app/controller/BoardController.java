@@ -69,17 +69,15 @@ public class BoardController {
 	@RequestMapping(value = "/boardWrite", method = RequestMethod.POST)
 	public String boardInsert(UploadFile imgFile, Board board) {
 		CommonsMultipartFile chk = imgFile.getTheFile()[0];
-		System.out.println(chk.getOriginalFilename());
+		System.out.println(chk);
 		System.out.println(board);
-		if (chk.getOriginalFilename() != "theFile" ) {		
+		if (chk.getOriginalFilename() != "" ) {		
 			service.fileInsert(imgFile, board);				
 		}else {
 			service.boardInsert(board);			
 		}
 		return "redirect:boardList";
 	}
-	
-
 	
 	@RequestMapping("/boardUpdate")
 	public String boradUpdate(@RequestParam int bnum, Model model) {
@@ -91,7 +89,8 @@ public class BoardController {
 	@RequestMapping(value="/boardUpdate", method=RequestMethod.POST)
 	public String boradUpdate(Board board) {
 		service.boardUpdate(board);
-		return "redirect:boardList";	
+		System.out.println(board);
+		return "redirect:boardView?bnum="+board.getBnum();
 	}
 	
 	@RequestMapping("/boardDelete")

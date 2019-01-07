@@ -35,34 +35,30 @@
 		})
 		
 		//댓글 페이징
-		var cmtPaging = function(){
-			var record = "${comment.totalCount}"
-				var total = record / 8;
-				var bnum = "${board.bnum}";
+		var record = "${comment.totalCount}"
+			var total = record / 8;
+			var bnum = "${board.bnum}";
 
-				if (record % 8 != 0){
-					total = Math.ceil(total)
-					};
-				console.log(total)
-				var curpage = $("#curpage").val();
-				var paging = "";
+			if (record % 8 != 0){
+				total = Math.ceil(total)
+				};
+			console.log(total)
+			var curpage = $("#curpage").val();
+			var paging = "";
 
-				for (var i = 1; i <= total; i++) {
-					console.log(i);
-					if (i == curpage) {
-						paging = paging + i + "&nbsp;&nbsp;";
-					} else if(i % 10 == 0){
-												
-					} else {
-						paging = paging
-								+ "<a href='/190101_board/boardView?bnum="+bnum+"&cntCurPage="
-								+ i + "'>" + i + "</a>&nbsp;&nbsp;";
-					}
+			for (var i = 1; i <= total; i++) {
+				console.log(i);
+				if (i == curpage) {
+					paging = paging + i + "&nbsp;&nbsp;";
+				} else if(i % 10 == 0){
+											
+				} else {
+					paging = paging
+							+ "<a href='/190101_board/boardView?bnum="+bnum+"&cntCurPage="
+							+ i + "'>" + i + "</a>&nbsp;&nbsp;";
 				}
-				$(".page").html(paging);
-		}
-		cmtPaging();
-		
+			}
+			$(".page").html(paging);	
 	
 		//comment delete
 		$(".cmtDel").on("click", function(e) {
@@ -80,9 +76,10 @@
 					},
 					success : function(data, status, xhr) {
 						if (data == "success") {
-/* 					 	 $("#commentNum"+cnum).remove(); */
-							alert("삭제되었습니다.")
- 						 $("#comment").load(" #comment"); 						
+ 					 	 $("#commentNum"+cnum).remove(); 
+ 						//$("#comment").load(" #comment");
+ 						$("#comment").html($("#comment").html()); 	
+						//	cmtPaging();
 						}	
 					},
 					error : function(xhr, status, error) {						
@@ -189,6 +186,7 @@
 		<a class="btn gray underTable" data-bnum="${board.bnum}" id="del">삭제</a>	
 		<a class="btn darkGray underTable" id="list">목록</a>
 	</div>
-	<div id="bListContainer"></div>		
+	<div id="bListContainer">		
+	</div>		
 </body>
 </html>
