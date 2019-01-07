@@ -35,37 +35,46 @@
 		})
 		
 		//댓글 페이징
-		var cmtPaging = function(){
-			var record = "${comment.totalCount}"
-				var total = record / 8;
-				var bnum = "${board.bnum}";
+		var bnum = "${board.bnum}";
+			
+		var record = "${comment.totalCount}"
+		var total = record / 8;
 
-				if (record % 8 != 0){
-					total = Math.ceil(total)
-					};
-				console.log(total)
-				var curpage = $("#curpage").val();
-				var paging = "";
+			if (record % 8 != 0){
+				total = Math.ceil(total)
+				};
+			console.log(total)
+			var curpage = $("#curpage").val();
+			var paging = "";
 
-				for (var i = 1; i <= total; i++) {
-					console.log(i);
-					if (i == curpage) {
-						paging = paging + i + "&nbsp;&nbsp;";
-					} else if(i % 10 == 0){
-												
-					} else {
-						paging = paging
-								+ "<a href='/190101_board/boardView?bnum="+bnum+"&cntCurPage="
-								+ i + "'>" + i + "</a>&nbsp;&nbsp;";
-					}
+			for (var i = 1; i <= total; i++) {
+				console.log(i);
+				if (i == curpage) {
+					paging = paging + i + "&nbsp;&nbsp;";
+				} else if(i % 10 == 0){
+											
+				} else {
+					paging = paging
+							+ "<a href='/190101_board/boardView?bnum="+bnum+"&cntCurPage="
+							+ i + "'>" + i + "</a>&nbsp;&nbsp;";
 				}
-				$(".page").html(paging);
-		}
-		cmtPaging();
+			}
+			$(".page").html(paging);
 		
-	
+		
 		//comment delete
-		$(".cmtDel").on("click", function(e) {
+ 		$(".cmtDel").on("click", function(e) {
+			var cnum = $(this).attr("data-cnum");
+			var txt = confirm("삭제하시겠습니까?");
+			var temp = $(this);
+			
+			location.href = "commentDelete?bnum="+bnum+"&cnum="+cnum;
+ 		});
+					
+		
+	// ~ ajax 봉인 (ajax 1회 실행 후 재실행이 안됨)~
+		//comment delete
+/* 		$(".cmtDel").on("click", function(e) {
 			var cnum = $(this).attr("data-cnum");
 			var txt = confirm("삭제하시겠습니까?");
 			var temp = $(this);
@@ -80,9 +89,8 @@
 					},
 					success : function(data, status, xhr) {
 						if (data == "success") {
-/* 					 	 $("#commentNum"+cnum).remove(); */
-							alert("삭제되었습니다.")
- 						 $("#comment").load(" #comment"); 						
+ 					 	 $("#commentNum"+cnum).remove(); 
+ 						 $("#comment").html(cmtTbl); 						
 						}	
 					},
 					error : function(xhr, status, error) {						
@@ -91,7 +99,35 @@
 				});
 			}
 		})//
-		
+		// ajax 코멘트 테이블
+		var cmtTbl = function(){
+			$.ajax({
+				url : "commentView",
+				type : "get",
+				dataType : "JSON",
+				data : {
+					bnum : bnum
+				},
+				success : function(data, status, xhr) {	
+					var cmtHtml = "";
+						cmtHtml = cmtHtml + "<table class='tbl underTable'>"
+					for ( let cmt of data.list) {
+						console.log(cmt);	
+						cmtHtml = cmtHtml + "<tr id='commentNum"+cmt.cnum+"'>"
+						cmtHtml = cmtHtml + "<td style='width: 12%' class='small'>"+cmt.author+"</td>"
+						cmtHtml = cmtHtml + "<td style='width: *'>"+cmt.content+"</td>"
+						cmtHtml = cmtHtml + "<td style='width: 10%' class='small alignC'>"+cmt.regdate+"</td>"
+						cmtHtml = cmtHtml + "<td style='width: 10%' class='small alignR'><button id='cmtDel"+cmt.cnum+"' data-cnum="+cmt.cnum+" class='gray cmtDel'>삭제</button></td></tr>"
+					}
+						cmtHtml = cmtHtml + "</table>"
+					$("#comment").html(cmtHtml);
+					cmtPaging();
+				},
+				error : function(xhr, status, error) {						
+					console.log(error);
+				}
+			});
+		} */
 		
 		//공백 시 submit X
 		$("#cmtSub").on("submit", function(e) {		
@@ -107,8 +143,6 @@
 				e.preventDefault();
 			}
 		})
-		
-		
 	})
 </script>
 

@@ -34,7 +34,7 @@
 			<table class="tbl" border="1">
 				<tr>
 					<th style="width: 10%">author</th>
-					<td style="width: *">${board.author}</td>
+					<td style="width: *"><input type="text" value="${board.author}" name="author" onfocus="this.blur()" readonly="readonly" ></td>
 				</tr>
 				<tr>
 					<th>title</th>

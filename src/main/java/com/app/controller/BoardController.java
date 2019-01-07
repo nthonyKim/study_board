@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.metamodel.SetAttribute;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,26 +42,34 @@ public class BoardController {
 		map.put("search", search);
 		
 		Page page = service.boardList(map);
+
 		session.setAttribute("page", page);
 		session.setAttribute("searching", search);
 		return "boardList";
 	}
 
 	@RequestMapping("/boardView")
-	public String boardView(@RequestParam(required = false, defaultValue = "1") int cntCurPage, @RequestParam int bnum, Model model) {
+	public String boardView(@RequestParam(required = false, defaultValue = "1") int cmtCurPage, @RequestParam int bnum, Model model) {
 		Board board = service.boardView(bnum);
 		
 		//코멘트 페이지
-		Page commentPage = service.boardComment(bnum, cntCurPage);
+		Page commentPage = service.boardComment(bnum, cmtCurPage);
 		//첨부파일 데이터
 		List<UploadFile> list = service.fileSelect(bnum);
-		System.out.println(list);
 		
 		model.addAttribute("board", board);
 		model.addAttribute("comment", commentPage);
 		model.addAttribute("file", list);
 		return "boardView";
 	}
+	
+/*	@RequestMapping("/commentView")
+	public @ResponseBody Page commentView (@RequestParam(required = false, defaultValue = "1") int cmtCurPage, @RequestParam int bnum) {
+		//코멘트 페이지
+		Page commentPage = service.boardComment(bnum, cmtCurPage);
+		System.out.println(commentPage);
+		return commentPage;
+	}*/
 		
 	// board 기본 C U D
 	@RequestMapping("/boardWrite")
@@ -69,8 +80,6 @@ public class BoardController {
 	@RequestMapping(value = "/boardWrite", method = RequestMethod.POST)
 	public String boardInsert(UploadFile imgFile, Board board) {
 		CommonsMultipartFile chk = imgFile.getTheFile()[0];
-		System.out.println(chk.getOriginalFilename());
-		System.out.println(board);
 		if (chk.getOriginalFilename() != "theFile" ) {		
 			service.fileInsert(imgFile, board);				
 		}else {
@@ -78,8 +87,6 @@ public class BoardController {
 		}
 		return "redirect:boardList";
 	}
-	
-
 	
 	@RequestMapping("/boardUpdate")
 	public String boradUpdate(@RequestParam int bnum, Model model) {
@@ -101,10 +108,15 @@ public class BoardController {
 	}
 	
 	// comment 기본 C D
-	@RequestMapping(value="/commentDelete", method=RequestMethod.GET)
+/*	@RequestMapping(value="/commentDelete", method=RequestMethod.GET)
 	public @ResponseBody String commentDelete(@RequestParam String cnum) {
 		service.commentDelete(Integer.parseInt(cnum));		
 		return "success";
+	}*/
+	@RequestMapping(value="/commentDelete", method=RequestMethod.GET)
+	public String commentDelete(@RequestParam String cnum, @RequestParam String bnum) {
+		service.commentDelete(Integer.parseInt(cnum));		
+		return "redirect:boardView?bnum="+bnum;
 	}
 	
 	@RequestMapping(value="/commentInsert", method=RequestMethod.GET)
