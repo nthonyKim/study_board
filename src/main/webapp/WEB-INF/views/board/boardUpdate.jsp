@@ -13,7 +13,6 @@
 		// 공백 시 submit X
 		$("form").on("submit", function(e) {
 			var cke = CKEDITOR.instances['content'].getData();
-
 			if (title.val() == "") {
 				alert("제목을 입력해 주십시오");
 				title.focus();
@@ -29,7 +28,7 @@
 </script>
 
 <body>
-	<form action="boardUpdate" method="post">
+	<form action="loginCheck/boardUpdate" method="post">
 		<input type="hidden" name="bnum" value="${board.bnum}">
 		<div>
 			<table class="tbl" border="1">
@@ -43,9 +42,6 @@
 				</tr>
 				<tr>
 					<td colspan="2"><textarea name="content" id="content" class="bcontent"></textarea></td>
-				</tr>
-				<tr>
-					<td colspan="2"><input type="file" name="theFile" multiple="multiple"></td>
 				</tr>
 			</table>
 		</div>

@@ -6,12 +6,12 @@ import org.apache.ibatis.type.Alias;
 public class Member {
 
 	private String userid;
-	private int passwd;
+	private String passwd;
 	private String username;
 	
 	
 	
-	public Member(String userid, int passwd, String username) {
+	public Member(String userid, String passwd, String username) {
 		super();
 		this.userid = userid;
 		this.passwd = passwd;
@@ -39,13 +39,13 @@ public class Member {
 
 
 
-	public int getPasswd() {
+	public String getPasswd() {
 		return passwd;
 	}
 
 
 
-	public void setPasswd(int passwd) {
+	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
 

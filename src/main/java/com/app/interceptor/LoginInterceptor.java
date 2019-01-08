@@ -2,14 +2,17 @@ package com.app.interceptor;
 
 import java.lang.ProcessBuilder.Redirect;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter{
+	
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
@@ -27,8 +30,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		HttpSession session = request.getSession();
 		
-		if(session.getAttribute("user") == null) {
-			System.out.println("로그인 없음");			
+		if(session.getAttribute("user") == null) {			
+			System.out.println("로그인 없음");
+			request.setAttribute("mesg", "로그인이 필요한 서비스 입니다.");
 			response.sendRedirect("../loginForm");
 			return false;			
 		}

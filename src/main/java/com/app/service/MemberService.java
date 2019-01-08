@@ -25,4 +25,8 @@ public class MemberService {
 		int n = dao.idCheck(userid);
 		return n;
 	}
+
+	public void memberUpdate(Member member) {
+		dao.memberUpdate(member);		
+	}
 }

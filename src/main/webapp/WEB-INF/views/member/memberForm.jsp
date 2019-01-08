@@ -6,96 +6,105 @@
 #result2 {color: orange;}
 </style>
 <script type="text/javascript">
-	$(function() {
+$(document).ready(function() {
 				var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/;
+				var checkStrId = /^[A-Za-z0-9]{4,10}$/;
+				var checkStrPw = /^[0-9]{4}$/;
 				var userid = $("#userid");
 				var passwd1 = $("#passwd1");
 				var passwd2 = $("#passwd2");
-				var username = $("#username");
+				var username = $("#username");					
+				
 				//id 유효성
-				$("#userid").on("keyup", function() {
-									if (!(userid.val() >= '0' && userid.val() <= '9')
-											&& !(userid.val() >= 'a' && userid.val() <= 'z')
-											&& !(userid.val() >= 'A' && userid.val() <= 'Z')) {
-										$("#result").text("아이디는 대소문자, 숫자만 입력가능합니다.")
-									} else if (userid.val().indexOf(" ") >= 0) {
-										$("#result").text("아이디에 공백을 사용할 수 없습니다.")
-									} else if (check.test(userid.val())) {
-										$("#result").text("아이디에 한글을 사용하실 수 없습니다")
-									} else if (userid.val().length < 4 || userid.val().length > 10) {
-										$("#result").text("아이디를 4~10자까지 입력해주세요.")
-									} else {
-										$.ajax({
-													type : "GET",
-													url : "idCheck",
-													dataType : "text",
-													data : {
-														userid : $("#userid").val()
-													},
-													success : function(responseData, status, xhr) {
-														if ($("#userid").val().length == 0) {
-															$("#result").text("");
-														} else {
-															$("#result").text(responseData);
-														};
-													},
-													error : function(xhr, status, error) {
-														console.log(error);
-													}
-												});
-									}//ajax
-								})
+				$("#userid").on("keyup",  function () {
+					if(!checkStrId.test(userid.val())) {
+						$("#result").text('영문과 숫자 4~10자 이내로 입력하세요.');
+					}else{					
+					$.ajax({
+						type : "GET",
+						url : "idCheck",
+						dataType : "text",
+						data : {
+							userid : $("#userid").val()
+						},
+						success : function(responseData, status, xhr) {
+							if ($("#userid").val().length == 0) {
+								$("#result").text("");
+							} else {
+								$("#result").text(responseData);
+							};
+						},
+						error : function(xhr, status, error) {
+							console.log(error);
+						}
+					});
+					}
+					
+				})		
+							
 				//비밀번호 유효성
-				$("#passwd2").on("keyup", function() {
-					var passwd = $("#passwd1").val();
-					var passwd2 = $(this).val();
-
-					if (passwd == passwd2) {
-						$("#result2").text("비밀번호 일치")
-					} else if (passwd2.length == 0) {
+				$(passwd2).on("keyup", function() {	
+					if (passwd2.val().length == 0) {
 						$("#result2").text("");
+					} else if (!checkStrPw.test(passwd1.val())) {
+						$("#result2").text("비밀번호는 4글자의 숫자로 정해주세요.")
+					} else if (passwd1.val() == passwd2.val()) {
+						$("#result2").text("비밀번호 일치")
 					} else {
 						$("#result2").text("비밀번호 불일치")
-					}
-					if (passwd.length<4 || passwd.length>4) {
+					}					
+				});
+				
+				//passwd1을 다시 수정했을 때
+				$(passwd1).on("keyup", function() {		
+					if (passwd2.val().length == 0) {
+						$("#result2").text("");
+					} else if (!checkStrPw.test(passwd1.val())) {
 						$("#result2").text("비밀번호는 4글자의 숫자로 정해주세요.")
+					} else if (passwd1.val() == passwd2.val()) {
+						$("#result2").text("비밀번호 일치")
+					} else {
+						$("#result2").text("비밀번호 불일치")
 					}
 				});
 
 				//form submit
 				$("form").on("submit", function(e) {
+					console.log(username.val().length)
 									if (userid.val() == "") {
 										alert("아이디는 필수입력 사항입니다.");
 										userid.focus();
-										e.preventDefault();
+										return false;
 									} else if (passwd1.val() == "") {
 										alert("비밀번호는 필수입력 사항입니다.");
 										passwd1.focus();
-										e.preventDefault();
+										return false;
 									} else if (passwd2.val() == "") {
 										alert("비밀번호를 확인해주세요");
 										passwd2.focus();
-										e.preventDefault();
+										return false;
 									} else if (username.val() == "") {
 										alert("이름은 필수입력 사항입니다.");
 										username.focus();
-										e.preventDefault();
+										return false;
 									} else if ($("#result2").text() != "비밀번호 일치"
 											|| $("#result").text() != "아이디 사용가능") {
 										alert("아이디나 비밀번호를 확인해 주세요.")
-										e.preventDefault();
-									} else if (f.passwd1.value == f.userid.value) {
+										return false;
+									} else if (passwd1.val() == userid.val()) {
 										alert("아이디와 비밀번호가 같습니다.")
-										document.f.passwd1.focus()
-										e.preventDefault();
-									} else
-									//비밀번호 길이 체크
-									if (passwd1.val().length<4 || passwd1.val().length>4) {
+										passwd1.val()
+										return false;
+									} else if (passwd1.val().length<4 || passwd1.val().length>4) {
 										alert("비밀번호는 4글자의 숫자로 정해주세요.")
-										document.f.passwd1.focus()
-										document.f.passwd1.select()
-										e.preventDefault();
+										passwd1.focus()										
+										return false;
+									} else if (username.val().length<2 || username.val().length>10) {
+										alert("이름이 너무 짧거나 깁니다.")
+										username.focus()										
+										return false;
 									}
+									return true;
 								})				
 			})
 </script>

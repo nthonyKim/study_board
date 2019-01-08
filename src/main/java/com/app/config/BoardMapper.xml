@@ -191,7 +191,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, oriName
 		, savName)
 		values
-		( (select max(bnum+1) from board)
+		( (select max(bnum) from board)
 		, file_seq.nextval
 		, #{oriName}
 		, #{savName})

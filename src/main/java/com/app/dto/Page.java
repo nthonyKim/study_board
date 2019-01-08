@@ -9,7 +9,7 @@ public class Page {
 	
 	private List<Object> list;
 	private int currentPage;
-	private int perPage = 8;
+	private int perPage = 12;
 	private int totalCount;
 	
 	public List<Object> getList() {

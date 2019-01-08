@@ -35,10 +35,11 @@
 	</bean>
 
 	<!-- view -->
-	<mvc:view-controller view-name="boardList" path="/" />
 	<mvc:view-controller view-name="loginForm" path="/loginForm" />
 	<mvc:view-controller view-name="memberForm" path="/memberForm" />
 	<mvc:view-controller view-name="myPage" path="/myPage" />
+	<mvc:view-controller view-name="boardWrite" path="/boardWriteForm" />
+	<mvc:view-controller view-name="boardUpdate" path="/boardUpdateForm" />
 
 	<!-- resource -->
 	<mvc:resources mapping="/images/**" location="/WEB-INF/views/images/"/>

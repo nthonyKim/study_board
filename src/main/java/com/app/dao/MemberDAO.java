@@ -26,4 +26,8 @@ public class MemberDAO {
 		return n;
 	}
 
+	public void memberUpdate(Member member) {
+		int n = template.update("MemberMapper.memberUpdate", member);		
+	}
+
 }

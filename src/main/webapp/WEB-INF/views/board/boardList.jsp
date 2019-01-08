@@ -8,8 +8,7 @@
 	$(document).ready(function() {
 		//검색
 		$("#search").on("keypress", function(e) {
-			if (e.which == 13) {
-				
+			if (e.which == 13) {				
 				$("form").attr("action", "boardList");
 				$(this).submit();
 			}
@@ -17,13 +16,13 @@
 		
 		//페이징
 		var record = "${page.totalCount}"
-		var total = record / 8;
+		var total = record / 12;
 		var sea = "${searching.search}"
 		var key = "${searching.keyWord}"
 		var curpage = "${page.currentPage}";
 		
 		console.log(sea, key)
-		if (record % 8 != 0)
+		if (record % 12 != 0)
 			total = Math.ceil(total);
 		console.log(total)
 		var paging = "";
@@ -52,44 +51,44 @@
 				<tr>
 					<th style="width: 10%">no</th>
 					<th style="width: *">title</th>
-					<th style="width: 10%">author</th>
+					<th style="width: 15%">author</th>
 					<th style="width: 10%">read</th>
-					<th style="width: 10%">date</th>
+					<th style="width: 12%">date</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="board" items="${page.list}" varStatus="status">
+				<c:forEach var="bd" items="${page.list}" varStatus="status">
 					<tr>
-						<td class="small alignC">${board.bnum}</td>
-						<td>							
-						<c:choose>
-							<c:when test="${board.pub == 'y' }">
-								<a class="aLink" href="boardView?bnum=${board.bnum}">${board.title}</a>
-							</c:when>
-							<c:when test="${board.pub == 'n' }">
-								관리자와 작성자만 볼 수 있는 게시글 입니다.
-							</c:when>
-							<c:when test="${user.userid == 'admin' || user.userid == board.author}">
-								<a class="aLink" href="boardView?bnum=${board.bnum}">${board.title}</a>
-							</c:when>								
-						</c:choose>							
-							
-						<c:if test="${board.commentCnt > 0}">
-							<span class="xsmall">${board.commentCnt}</span>
-						</c:if>
-							</td>
-						<td class="alignC">
- 						<a class="aLink search">${board.author}</a>
-							<%-- ${board.author} --%></td>
-						<td class="small alignC">${board.readcnt}</td>
-						<td class="small alignC">${board.regdate}</td>
+						<td class="small alignC">${bd.bnum}</td>
+						<td><c:choose>
+								<c:when test="${bd.pub == 'y' }">
+									<a class="aLink" href="boardView?bnum=${bd.bnum}">${bd.title}</a>
+								</c:when>
+								<c:when test="${bd.pub == 'n' }">
+									<c:choose>
+										<c:when test="${user.userid eq 'admin' || user.username eq bd.author}">
+											<a class="aLink" href="boardView?bnum=${bd.bnum}">${bd.title}</a>
+										</c:when>
+										<c:otherwise>
+										<span class="small">관리자와 작성자만 볼 수 있는 게시글 입니다.</span>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+							</c:choose> 
+							<c:if test="${bd.commentCnt > 0}">
+								<span class="xsmall">${bd.commentCnt}</span>
+							</c:if></td>
+						<td class="alignC"><%-- <a class="aLink search">${board.author}</a> --%>
+							${bd.author}</td>
+						<td class="small alignC">${bd.readcnt}</td>
+						<td class="small alignC">${bd.regdate}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	<div class="btnGroup">
 		<a class="btn darkGray" href="boardList">전체글</a> 
-		<a class="btn mint" href="boardWrite">글쓰기</a>
+		<a class="btn mint" href="loginCheck/boardWrite">글쓰기</a>
 	</div>
 	<!-- 검색 버튼 추가할 것 -->
 	<div class="alignC">

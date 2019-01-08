@@ -57,13 +57,13 @@ public class BoardService {
 
 	@Transactional
 	public void fileInsert(UploadFile imgFile, Board board) {
-		dao.fileInsert(imgFile);
 		dao.boardInsert(board);
+		dao.fileInsert(imgFile);
 	}
 
 	public List<UploadFile> fileSelect(int bnum) {
 		List<UploadFile> list = dao.fileSelect(bnum);
 		return list;
-	}	
-
+	}
+	
 }

@@ -21,7 +21,7 @@ import com.app.service.MemberService;
 public class MemberController {
 	@Autowired
 	MemberService service;
-
+	
 	@RequestMapping("/login")
 	public String login(Member member, HttpSession session, RedirectAttributes red) {
 		Member mem = service.login(member);
@@ -29,20 +29,20 @@ public class MemberController {
 		
 		if(mem == null) {
 			red.addFlashAttribute("mesg","아이디 또는 비밀번호를 재확인 해주세요.");
-			return "loginForm";
+			return "redirect:loginForm";
 		}else {
 			session.setAttribute("user", mem);
 			System.out.println("세션에 login 저장 "+mem);
+			return "redirect:/";
 		}
-		return "redirect:/";
 	}
-	
+		
 	@RequestMapping(value="/memberInsert", method=RequestMethod.POST)
 	public String memberInsert(Member member, RedirectAttributes red) {
 		System.out.println("회원가입 성공: "+member);		
 		service.memberInsert(member);
 		red.addFlashAttribute("mesg","회원가입에 성공했습니다.");		
-		return "redirect:/";
+		return "redirect:loginForm";
 	}
 	
 	@RequestMapping(value="/idCheck", produces="application/text; charset=UTF-8")
@@ -57,9 +57,16 @@ public class MemberController {
 	
 	@RequestMapping("/loginCheck/mypage")
 	public String mypage(HttpSession session) {
-		System.out.println("마이페이지");
 		Member mem = (Member) session.getAttribute("user");
 		return "redirect:../myPage";
+	}
+	
+	@RequestMapping("/loginCheck/memberUpdate")
+	public String memberUpdate(Member member, RedirectAttributes red) {
+		System.out.println(member);
+		service.memberUpdate(member);		
+		red.addFlashAttribute("mesg", "수정했습니다.");
+		return "redirect:../loginForm";
 	}
 	
 	@RequestMapping("/loginCheck/logout")

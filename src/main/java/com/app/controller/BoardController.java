@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.dto.Board;
 import com.app.dto.Comment;
@@ -31,6 +32,12 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 
+	@RequestMapping("/")
+	public String home() {		
+		return "redirect:boardList";
+	}
+	
+	
 	@RequestMapping("/boardList")
 	public String boardList(@RequestParam(required = false, defaultValue = "1") int currentPage, HttpSession session, Searching search) {
 		
@@ -61,12 +68,12 @@ public class BoardController {
 	}
 		
 	// board 기본 C U D
-	@RequestMapping("/boardWrite")
+	@RequestMapping("/loginCheck/boardWrite")
 	public String boardInsert() {
-		return "boardWrite";
+		return "redirect:../boardWriteForm";
 	}
 
-	@RequestMapping(value = "/boardWrite", method = RequestMethod.POST)
+	@RequestMapping(value = "/loginCheck/boardWrite", method = RequestMethod.POST)
 	public String boardInsert(UploadFile imgFile, Board board) {
 		CommonsMultipartFile chk = imgFile.getTheFile()[0];
 		System.out.println(chk);
@@ -76,40 +83,40 @@ public class BoardController {
 		}else {
 			service.boardInsert(board);			
 		}
-		return "redirect:boardList";
+		return "redirect:../boardList";
 	}
 	
-	@RequestMapping("/boardUpdate")
-	public String boradUpdate(@RequestParam int bnum, Model model) {
+	@RequestMapping("/loginCheck/boardUpdate")
+	public String boradUpdate(@RequestParam int bnum, HttpSession session) {
 		Board board = service.boardView(bnum);
-		model.addAttribute("board", board);
-		return "boardUpdate";	
+		session.setAttribute("board", board);
+		return "redirect:../boardUpdateForm";
 	}
 	
-	@RequestMapping(value="/boardUpdate", method=RequestMethod.POST)
+	@RequestMapping(value="/loginCheck/boardUpdate", method=RequestMethod.POST)
 	public String boradUpdate(Board board) {
 		service.boardUpdate(board);
 		System.out.println(board);
-		return "redirect:boardView?bnum="+board.getBnum();
+		return "redirect:../boardView?bnum=" + board.getBnum();
 	}
-	
-	@RequestMapping("/boardDelete")
+
+	@RequestMapping("/loginCheck/boardDelete")
 	public String boradDelete(@RequestParam int bnum) {
 		service.boradDelete(bnum);		
-		return "redirect:boardList";	
+		return "redirect:../boardList";	
 	}
 	
 	// comment 기본 C D
-	@RequestMapping(value="/commentDelete", method=RequestMethod.GET)
+	@RequestMapping(value="/loginCheck/commentDelete", method=RequestMethod.GET)
 	public @ResponseBody String commentDelete(@RequestParam String cnum) {
 		service.commentDelete(Integer.parseInt(cnum));		
 		return "success";
 	}
 	
-	@RequestMapping(value="/commentInsert", method=RequestMethod.GET)
+	@RequestMapping(value="/loginCheck/commentInsert", method=RequestMethod.GET)
 	public String commentInsert(Comment cnt, Model model) {
 		int bnum = cnt.getBnum();
 		service.commentInsert(cnt);
-		return "redirect:boardView?bnum="+bnum;
+		return "redirect:../boardView?bnum="+bnum;
 	}
 }

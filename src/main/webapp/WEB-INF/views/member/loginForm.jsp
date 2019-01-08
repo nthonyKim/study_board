@@ -17,6 +17,9 @@ $(document).ready(function() {
 				alert("비밀번호는 필수입력 사항입니다.");
 				passwd.focus();
 				e.preventDefault();
+			}else if(passwd.val().length > 4){
+				alert("비밀번호는 4개의 숫자 입니다.");
+				e.preventDefault();
 			}
 		})
 	})
@@ -27,13 +30,6 @@ $(document).ready(function() {
 		alert(mesg);
 	}
 	</script>
-	
-	<c:if test="${!empty mesg}">
-		<script type="text/javascript">
-			alert("${mesg}");
-		</script>
-	</c:if>	
-
 <h1>LOGIN</h1>
 <div class="loginForm alignC">
 <form action="login" method="post">
@@ -47,10 +43,9 @@ $(document).ready(function() {
 	<tr><th>PW</th><td><input type="password" name="passwd" id="passwd">
 	</td></tr>	
 </table>
-<div class="btnGroup alignC">
-${mesg}
-<a class="btn darkGray underTable" id="list" href="boardList">목록</a>
-<input type="submit" value="로그인" class="btn mint alignC">
+<div class="btnGroup alignC underTable">
+	<a class="btn darkGray" href="boardList">목록</a>
+	<input type="submit" value="로그인" class="btn mint">
 </div>
 <div class="form underTable">
 <!-- <a href="idFind" class="aLink">아이디 찾기</a> -->

@@ -7,19 +7,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="login" resultType="Member" parameterType="hashmap">
 		select *
 		from simplemember
-		where userid=#{userid} and passwd=#{passwd}
+		where userid=trim(#{userid}) and passwd=#{passwd}
 	</select>
 
 	<select id="myPage" resultType="Member" parameterType="String">
 		select *
 		from simplemember
-		where userid = #{userid}
+		where userid = trim(#{userid})
 	</select>
 
 	<insert id="memberInsert" parameterType="Member">
 		insert into simplemember
 		(userid, passwd, username)
-		values(#{userid}, #{passwd}, #{username})
+		values(trim(#{userid}), #{passwd}, trim(#{username}))
 	</insert>
 
 	<!-- 아이디 일치값 찾기 -->
@@ -27,13 +27,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select
 		count(*)
 		from simplemember
-		where userid = #{userid}
+		where userid = trim(#{userid})
 	</select>
 
 	<update id="memberUpdate" parameterType="Member">
 		update simplemember
-		set passwd=#{passwd}, username=#{username}
-		where userid=#{userid}
+		set passwd=#{passwd}
+		where userid=trim(#{userid})
 	</update>
  
  

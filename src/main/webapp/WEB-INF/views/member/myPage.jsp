@@ -45,23 +45,19 @@
 		</colgroup>
 		<tr>
 			<th>ID</th>
-			<td><input type="text" value="${user.userid}"
-				readonly="readonly" name="userid" onfocus="this.blur()"></td>
+			<td><input type="text" value="${user.userid}" readonly="readonly" name="userid" onfocus="this.blur()"></td>
 		</tr>
 		<tr>
 			<th>PW</th>
-			<td><input type="password" name="passwd" id="passwd1"
-				value="${user.passwd}"></td>
+			<td><input type="password" name="passwd" id="passwd1" ></td>
 		</tr>
 		<tr>
 			<th>PW CONFIRM</th>
-			<td><input type="password" name="passwd2" id="passwd2">
-				<span id="presult"></span></td>
+			<td><input type="password" name="passwd2" id="passwd2"><span id="presult"></span></td>
 		</tr>
 		<tr>
 			<th>NAME</th>
-			<td><input type="text" value="${user.username}"
-				readonly="readonly" name="userid" onblur=""></td>
+			<td><input type="text" value="${user.username}" readonly="readonly" name="username" onfocus="this.blur()"></td>
 		</tr>
 	</table>
 	<div class="btnGroup alignC">

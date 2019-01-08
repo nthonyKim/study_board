@@ -95,7 +95,7 @@ public class BoardDAO {
 	// comment paging
 	public Page boardComment(int bnum, int cntCurPage) {
 		Page page = new Page();	
-		int offset = (cntCurPage - 1) * page.getPerPage();
+		int offset = (cntCurPage - 1) * 24;
 		
 		List<Object> list = template.selectList("BoardMapper.boardComment", bnum, new RowBounds(offset, page.getPerPage()));
 		int totalCount = totalRecordComment(bnum);

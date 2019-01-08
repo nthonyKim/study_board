@@ -31,7 +31,7 @@
 </script>
 
 <body>
-		<form action="boardWrite" method="post" enctype="multipart/form-data">
+		<form action="loginCheck/boardWrite" method="post" enctype="multipart/form-data">
 	<div>
 			<table class="tbl" border="1">
 				<tr>
@@ -42,7 +42,7 @@
 				</tr>
 				<tr>
 					<th>author</th>
-					<td><input type="text" name="author" id="author" placeholder="글쓴이를 입력하세요"></td>
+					<td><input type="text" name="author" id="author" value="${user.username}" onfocus="this.blur()" readonly="readonly" ></td>
 				</tr>
 				<tr>
 					<th>title</th>
@@ -59,8 +59,8 @@
 			</table>
 	</div>
 
-	<div class="btnGroup">
-		<a class="btn darkGray underTable" href="boardList">취소</a>
+	<div class="btnGroup underTable">
+		<a class="btn darkGray" href="boardList">취소</a>
 		<button class="btn mint" type="submit">완료</button>
 	</div>
 		</form>
