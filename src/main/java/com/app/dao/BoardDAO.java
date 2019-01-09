@@ -139,8 +139,8 @@ public class BoardDAO {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			int n = template.insert("BoardMapper.fileInsert", imgFile);		
 		}		
-		int n = template.insert("BoardMapper.fileInsert", imgFile);		
 	}
 
 	public List<UploadFile> fileSelect(int bnum) {

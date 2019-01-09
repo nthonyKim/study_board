@@ -7,6 +7,7 @@
 	$(document).ready(function() {	
 		var title = $("#title");
 		title.focus();		
+		console.log(CKEDITOR.instances['content'])
 
 		var con = "${board.content}"
 		CKEDITOR.instances['content'].setData(con);
@@ -47,7 +48,7 @@
 		</div>
 
 		<div class="btnGroup">
-			<a class="btn darkGray underTable" href="boardView?bnum=${board.bnum}">취소</a>
+			<a href="boardView?bnum=${board.bnum}"><button class="btn darkGray">취소</button></a>
 			<button class="btn mint" type="submit">완료</button>
 		</div>
 	</form>

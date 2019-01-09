@@ -59,6 +59,7 @@ public class BoardService {
 	public void fileInsert(UploadFile imgFile, Board board) {
 		dao.boardInsert(board);
 		dao.fileInsert(imgFile);
+		System.out.println("트랜잭션 두번 돌아야 되는 거 아니냐  "+imgFile);
 	}
 
 	public List<UploadFile> fileSelect(int bnum) {

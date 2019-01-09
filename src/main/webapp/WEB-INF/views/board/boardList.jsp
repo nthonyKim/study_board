@@ -91,17 +91,19 @@
 		<a class="btn mint" href="loginCheck/boardWrite">글쓰기</a>
 	</div>
 	<!-- 검색 버튼 추가할 것 -->
-	<div class="alignC">
+<!-- 	<div class="alignC">
 			<form method="get">
 			<div class="searchBox">
 				<select name="search">
 					<option selected="selected" value="author">글쓴이</option>
 					<option value="title">제목</option>
 					<option value="title_content">제목+내용</option>
-				</select> <input type="text" name="keyWord" id="search" placeholder="검색어" style="margin-bottom: 14px">
+				</select> 
+				<input type="text" name="keyWord" id="search" placeholder="검색어" style="margin-bottom: 14px">
+				<img src="images/icon/search.png">
 			</div>
 			</form>
-		</div>
+		</div> -->
 	<p class="underTable page">page</p>
 	</div>
 </body>

@@ -62,6 +62,6 @@
 	</table>
 	<div class="btnGroup alignC">
 		<input type="submit" value="수정" class="btn mint"> 
-		<a href="boardList" class="btn darkGray">취소</a>
+		<a href="boardList"><button class="btn darkGray" type="button">취소</button></a>
 	</div>
 </form>

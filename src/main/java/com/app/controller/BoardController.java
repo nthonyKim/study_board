@@ -113,7 +113,7 @@ public class BoardController {
 		return "success";
 	}
 	
-	@RequestMapping(value="/loginCheck/commentInsert", method=RequestMethod.GET)
+	@RequestMapping(value="/loginCheck/commentInsert", method=RequestMethod.POST)
 	public String commentInsert(Comment cnt, Model model) {
 		int bnum = cnt.getBnum();
 		service.commentInsert(cnt);

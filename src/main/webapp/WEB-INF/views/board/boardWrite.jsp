@@ -6,27 +6,45 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		CKEDITOR.replace( 'content' );
+		var cke = CKEDITOR.instances['content'];
+	
+	 cke.on('key', function(e) {
+			var deleteKey = 46;
+			var backspaceKey = 8;
+			var keyCode = e.data.keyCode;
+			if (keyCode === deleteKey || keyCode === backspaceKey) {
+				return true;
+			} else {
+				var str = CKEDITOR.instances.content.getData();
+				if (str.length >= 6000){
+					alert("6000 바이트까지 작성하실 수 있습니다")
+					return false;
+				}
+			}
+		}); 
+
 		//공백 시 submit X
-		$("form").on("submit", function(e) {		
+		$("form").on("submit", function(e) {
 			var title = $("#title");
 			var author = $("#author");
-			var content = $("#content");
-			var cke = CKEDITOR.instances['content'].getData();
 			if (title.val() == "") {
 				alert("제목을 입력하세요");
 				title.focus();
 				e.preventDefault();
-			}else if(author.val() == ""){
+			} else if (author.val() == "") {
 				alert("글쓴이를 입력하세요");
 				author.focus();
 				e.preventDefault();
-			} else if(cke == ""){
+			} else if (cke.getData() == "") {
 				alert("내용을 입력하세요");
 				content.focus();
 				e.preventDefault();
-			} 
+			} else if (cke.getData().length >= 6000) {
+				alert("내용이 너무 깁니다.");
+				e.preventDefault();
+			}
 		})
-		
+
 	})
 </script>
 
@@ -46,7 +64,7 @@
 				</tr>
 				<tr>
 					<th>title</th>
-					<td><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></td>
+					<td><input type="text" name="title" id="title" placeholder="제목을 입력하세요" maxlength="30"></td>
 				</tr>
 
 				<tr>
@@ -60,7 +78,7 @@
 	</div>
 
 	<div class="btnGroup underTable">
-		<a class="btn darkGray" href="boardList">취소</a>
+		<a href="boardList"><button class="btn darkGray" type="button">취소</button></a>
 		<button class="btn mint" type="submit">완료</button>
 	</div>
 		</form>

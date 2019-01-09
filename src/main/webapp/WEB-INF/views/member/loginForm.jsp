@@ -44,7 +44,7 @@ $(document).ready(function() {
 	</td></tr>	
 </table>
 <div class="btnGroup alignC underTable">
-	<a class="btn darkGray" href="boardList">목록</a>
+	<a href="boardList"><button class="btn darkGray" type="button">취소</button></a>
 	<input type="submit" value="로그인" class="btn mint">
 </div>
 <div class="form underTable">

@@ -28,7 +28,6 @@
 							var key = "${searching.keyWord}"
 							var cup = "${page.currentPage}"
 							if (sea == "" || key == "") {
-								console.log("empty")
 								location.href = "boardList?currentPage=" + cup;
 							} else {
 								location.href = "boardList?search=" + sea + "&keyWord=" + key + "&currentPage=" + cup;
@@ -44,12 +43,10 @@
 					total = Math.ceil(total)
 				}
 				;
-				console.log(total)
 				var curpage = $("#curpage").val();
 				var paging = "";
 
 				for (var i = 1; i <= total; i++) {
-					console.log(i);
 					if (i == curpage) {
 						paging = paging + i + "&nbsp;&nbsp;";
 					} else if (i % 10 == 0) {
@@ -71,7 +68,7 @@
 
 					if (txt == true) {
 						$.ajax({
-							url : "commentDelete",
+							url : "loginCheck/commentDelete",
 							type : "get",
 							dataType : "text",
 							data : {
@@ -152,17 +149,18 @@
 							<colgroup>
 								<col style="width: 12%">
 								<col style="width: *">
+								<col style="width: 20%">
 								<col style="width: 12%">
-								<col style="width: 10%">
 							</colgroup>
 								<c:forEach var="cmt" items="${comment.list}">
 									<tr id="commentNum${cmt.cnum}">
-										<td class="small">${cmt.author}</td>
-										<td>${cmt.content}</td>
+										<td>
+										<span class="small">${cmt.author}</span></td>
+										 <td><span><c:out value="${cmt.content}"/></span></td>
 										<c:choose>
 											<c:when test="${user.userid eq 'admin' || user.username eq cmt.author}">
-												<td class="small alignC"> ${cmt.regdate}</td>
-												<td class="small alignR"> <button id="cmtDel${cmt.cnum}" data-cnum="${cmt.cnum}" class="gray cmtDel">삭제</button></td>											
+												<td class="small alignR"> ${cmt.regdate}</td>
+												<td class="alignR "><button id="cmtDel${cmt.cnum}" data-cnum="${cmt.cnum}" class="gray cmtDel">삭제</button></td>											
 											</c:when>
 											<c:otherwise>
 												<td colspan="2" class="small alignR"> ${cmt.regdate}</td>
@@ -178,26 +176,45 @@
 							<p class="underTable cmtPage"></p>
 						</div>
 					<!-- 코멘트 입력 -->
-					<table class="tbl underTable">
-						<tr>
-							<form action="loginCheck/commentInsert" method="get" id="cmtSub">
-								<input type="hidden" value="${board.bnum}" name="bnum">
-								<td style="width: 12%"><input type="text" name="author" id="author" value="${user.username}" onfocus="this.blur()" readonly="readonly"></td>
-								<td style="width: *"><input type="text" name="content" id="content" placeholder="내용을 입력하세요"></td>
-								<td style="width: 10%" class="small alignR">
-								<button class="mint" type="submit">완료</button></td>
-							</form>
-						</tr>
-					</table>
-					</div>
+
+				<table class="tbl underTable">
+					<colgroup>
+						<col style="width: 12%">
+						<col style="width: *">
+						<col style="width: 10%">
+					</colgroup>
+
+					<tr>
+						<form action="loginCheck/commentInsert" method="post" id="cmtSub">
+							<input type="hidden" value="${board.bnum}" name="bnum">
+							<td><input type="text" name="author" id="author"
+								value="${user.username}" onfocus="this.blur()"
+								readonly="readonly"></td>
+							<td><c:choose>
+									<c:when test="${empty user}">
+										<input type="text" name="content" id="content" maxlength="600"
+											placeholder="로그인이 필요한 서비스 입니다">
+									</c:when>
+									<c:otherwise>
+										<input type="text" name="content" id="content" maxlength="600"
+											placeholder="내용을 입력하세요">
+									</c:otherwise>
+								</c:choose></td>
+							<td class="small alignR">
+								<button class="mint" type="submit">완료</button>
+							</td>
+						</form>
+					</tr>
+				</table>
+			</div>
 				</div>
 
 				<div class="btnGroup">
 				<c:if test="${user.userid eq 'admin' || user.username eq board.author}">
-					<a class="btn gray" data-bnum="${board.bnum}" id="mod">수정</a>
-					<a class="btn gray" data-bnum="${board.bnum}" id="del">삭제</a>					
+					<a data-bnum="${board.bnum}" id="mod"><button class="btn gray">수정</button></a>
+					<a data-bnum="${board.bnum}" id="del"><button class="btn gray">삭제</button></a>					
 				</c:if>
-					<a class="btn darkGray underTable" id="list">목록</a>
+					<a id="list"><button class="btn darkGray" >목록</button></a>
 				</div>
 			</div>
 </body>
