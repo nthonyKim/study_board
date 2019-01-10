@@ -1,6 +1,7 @@
 package com.app.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.dto.Board;
@@ -46,25 +48,30 @@ public class BoardController {
 		map.put("search", search);
 		
 		Page page = service.boardList(map);
+		
+		session.removeAttribute("page");
+		session.removeAttribute("searching");
+		
 		session.setAttribute("page", page);
 		session.setAttribute("searching", search);
 		return "boardList";
 	}
 
 	@RequestMapping("/boardView")
-	public String boardView(@RequestParam(required = false, defaultValue = "1") int cntCurPage, @RequestParam int bnum, Model model) {
+	public ModelAndView boardView(@RequestParam(required = false, defaultValue = "1") int cntCurPage, @RequestParam int bnum) {
 		Board board = service.boardView(bnum);
-		
 		//코멘트 페이지
 		Page commentPage = service.boardComment(bnum, cntCurPage);
 		//첨부파일 데이터
 		List<UploadFile> list = service.fileSelect(bnum);
 		System.out.println(list);
 		
-		model.addAttribute("board", board);
-		model.addAttribute("comment", commentPage);
-		model.addAttribute("file", list);
-		return "boardView";
+		ModelAndView mav = new ModelAndView();		
+		mav.addObject("board", board);
+		mav.addObject("comment", commentPage);
+		mav.addObject("file", list);
+		mav.setViewName("boardView");
+		return mav;
 	}
 		
 	// board 기본 C U D
@@ -76,7 +83,7 @@ public class BoardController {
 	@RequestMapping(value = "/loginCheck/boardWrite", method = RequestMethod.POST)
 	public String boardInsert(UploadFile imgFile, Board board) {
 		CommonsMultipartFile chk = imgFile.getTheFile()[0];
-		System.out.println(chk);
+		System.out.println(chk.getOriginalFilename());
 		System.out.println(board);
 		if (chk.getOriginalFilename() != "" ) {		
 			service.fileInsert(imgFile, board);				
@@ -119,4 +126,17 @@ public class BoardController {
 		service.commentInsert(cnt);
 		return "redirect:../boardView?bnum="+bnum;
 	}
+	
+/*	@RequestMapping("/fileDown")
+	public String fileDown(@RequestParam String fileName){		
+		File file = new File("F:\\programming\\upload", fileName);
+		String filePath = file.getPath();
+		
+		byte b[] = new byte[4096];
+		FileInputStream in = new FileInputStream(filePath);
+
+	
+		
+		return "boardView";	
+	}*/
 }

@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<script type="text/javascript">
-	
+<script type="text/javascript">	
 	$(document).ready(function() {
 		//검색
 		$("#search").on("keypress", function(e) {
@@ -14,32 +13,39 @@
 			}
 		})// 
 		
-		//페이징
-		var record = "${page.totalCount}"
-		var total = record / 12;
-		var sea = "${searching.search}"
-		var key = "${searching.keyWord}"
-		var curpage = "${page.currentPage}";
+		var temp = $("#bnum${board.bnum}");
+		$(temp).addClass("highlight");
 		
-		console.log(sea, key)
-		if (record % 12 != 0)
-			total = Math.ceil(total);
-		console.log(total)
-		var paging = "";
-
-		for (var i = 1; i <= total; i++) {
-			console.log(i);
-			if (i == curpage) {
-				paging = paging + i + "&nbsp;&nbsp;";
-			} else if(sea != "" || key != ""){
-				paging = paging
-				+ "<a href='/190101_board/boardList?search="+sea+"&keyWord="+key+"&currentPage=" + i + "'>" + i + "</a>&nbsp;&nbsp;";
-			} else{
-				paging = paging
-						+ "<a href='/190101_board/boardList?currentPage=" + i + "'>" + i + "</a>&nbsp;&nbsp;";
+		//페이징
+		//세션에 저장하여 관리		
+		function paging(){
+			var record = "${page.totalCount}"
+			var curpage = "${page.currentPage}";
+			var sea = "${searching.search}"
+			var key = "${searching.keyWord}"
+			var total = record / 12;
+			
+			console.log(sea, key)
+			if (record % 12 != 0)
+				total = Math.ceil(total);
+			console.log(total)
+			var paging = "";
+	
+			for (var i = 1; i <= total; i++) {
+				console.log(i);
+				if (i == curpage) {
+					paging = paging + i + "&nbsp;&nbsp;";
+				} else if(sea != "" || key != ""){
+					paging = paging
+					+ "<a href='/190101_board/boardList?search="+sea+"&keyWord="+key+"&currentPage=" + i + "'>" + i + "</a>&nbsp;&nbsp;";
+				} else{
+					paging = paging
+							+ "<a href='/190101_board/boardList?currentPage=" + i + "'>" + i + "</a>&nbsp;&nbsp;";
+				}
 			}
+			$(".page").html(paging);
 		}
-		$(".page").html(paging);
+		paging();
 
 	})
 </script>
@@ -61,8 +67,8 @@
 					<tr>
 						<td class="small alignC">${bd.bnum}</td>
 						<td><c:choose>
-								<c:when test="${bd.pub == 'y' }">
-									<a class="aLink" href="boardView?bnum=${bd.bnum}">${bd.title}</a>
+								<c:when test="${bd.pub == 'y' }">									
+									<a class="aLink" href="boardView?bnum=${bd.bnum}" id="bnum${bd.bnum}">${bd.title}</a>
 								</c:when>
 								<c:when test="${bd.pub == 'n' }">
 									<c:choose>
@@ -83,15 +89,17 @@
 						<td class="small alignC">${bd.readcnt}</td>
 						<td class="small alignC">${bd.regdate}</td>
 					</tr>
+					
 				</c:forEach>
 			</tbody>
 		</table>
+		
 	<div class="btnGroup">
 		<a class="btn darkGray" href="boardList">전체글</a> 
 		<a class="btn mint" href="loginCheck/boardWrite">글쓰기</a>
 	</div>
 	<!-- 검색 버튼 추가할 것 -->
-<!-- 	<div class="alignC">
+	<div class="alignC underTable">
 			<form method="get">
 			<div class="searchBox">
 				<select name="search">
@@ -99,11 +107,10 @@
 					<option value="title">제목</option>
 					<option value="title_content">제목+내용</option>
 				</select> 
-				<input type="text" name="keyWord" id="search" placeholder="검색어" style="margin-bottom: 14px">
-				<img src="images/icon/search.png">
+				<input type="text" name="keyWord" id="search" placeholder="검색어" style="margin-bottom: 14px" maxlength="10">
 			</div>
 			</form>
-		</div> -->
+		</div>
 	<p class="underTable page">page</p>
 	</div>
 </body>

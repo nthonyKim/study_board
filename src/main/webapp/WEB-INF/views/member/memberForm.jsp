@@ -71,41 +71,41 @@ $(document).ready(function() {
 				//form submit
 				$("form").on("submit", function(e) {
 					console.log(username.val().length)
-									if (userid.val() == "") {
-										alert("아이디는 필수입력 사항입니다.");
-										userid.focus();
-										return false;
-									} else if (passwd1.val() == "") {
-										alert("비밀번호는 필수입력 사항입니다.");
-										passwd1.focus();
-										return false;
-									} else if (passwd2.val() == "") {
-										alert("비밀번호를 확인해주세요");
-										passwd2.focus();
-										return false;
-									} else if (username.val() == "") {
-										alert("이름은 필수입력 사항입니다.");
-										username.focus();
-										return false;
-									} else if ($("#result2").text() != "비밀번호 일치"
-											|| $("#result").text() != "아이디 사용가능") {
-										alert("아이디나 비밀번호를 확인해 주세요.")
-										return false;
-									} else if (passwd1.val() == userid.val()) {
-										alert("아이디와 비밀번호가 같습니다.")
-										passwd1.val()
-										return false;
-									} else if (passwd1.val().length<4 || passwd1.val().length>4) {
-										alert("비밀번호는 4글자의 숫자로 정해주세요.")
-										passwd1.focus()										
-										return false;
-									} else if (username.val().length<2 || username.val().length>10) {
-										alert("이름이 너무 짧거나 깁니다.")
-										username.focus()										
-										return false;
-									}
-									return true;
-								})				
+						if (userid.val() == "") {
+							alert("아이디는 필수입력 사항입니다.");
+							userid.focus();
+							return false;
+						} else if (passwd1.val() == "") {
+							alert("비밀번호는 필수입력 사항입니다.");
+							passwd1.focus();
+							return false;
+						} else if (passwd2.val() == "") {
+							alert("비밀번호를 확인해주세요");
+							passwd2.focus();
+							return false;
+						} else if (username.val() == "") {
+							alert("이름은 필수입력 사항입니다.");
+							username.focus();
+							return false;
+						} else if ($("#result2").text() != "비밀번호 일치"
+								|| $("#result").text() != "아이디 사용가능") {
+							alert("아이디나 비밀번호를 확인해 주세요.")
+							return false;
+						} else if (passwd1.val() == userid.val()) {
+							alert("아이디와 비밀번호가 같습니다.")
+							passwd1.val()
+							return false;
+						} else if (passwd1.val().length<4 || passwd1.val().length>4) {
+							alert("비밀번호는 4글자의 숫자로 정해주세요.")
+							passwd1.focus()										
+							return false;
+						} else if (username.val().length<2 || username.val().length>10) {
+							alert("이름이 너무 짧거나 깁니다.")
+							username.focus()										
+							return false;
+						}
+						return true;
+					})				
 			})
 </script>
 <body oncopy="return false" oncut="return false" onpaste="return false">
@@ -120,22 +120,22 @@ $(document).ready(function() {
 				</colgroup>
 				<tr>
 					<th><span class="required" title="필수 입력">ID</span></th>
-					<td><input type="text" name="userid" id="userid"> <span
-						id="result" class="small bold"></span></td>
+					<td><input type="text" name="userid" id="userid" maxlength="10"> 
+					<span id="result" class="small bold"></span></td>
 				</tr>
 				<tr>
 					<th><span class="required" title="필수 입력">PW</span></th>
-					<td><input type="password" name="passwd" id="passwd1">
+					<td><input type="password" name="passwd" id="passwd1" maxlength="4">
 					</td>
 				</tr>
 				<tr>
 					<th>PW CONFIRM</th>
-					<td><input type="password" name="passwd2" id="passwd2">
+					<td><input type="password" name="passwd2" id="passwd2" maxlength="4">
 						<span id="result2" class="small bold"></span></td>
 				</tr>
 				<tr>
 					<th><span class="required" title="필수 입력">NAME</span></th>
-					<td><input type="text" name="username" id="username"></td>
+					<td><input type="text" name="username" id="username" maxlength="10"></td>
 				</tr>
 			</table>
 			<div class="btnGroup alignC">

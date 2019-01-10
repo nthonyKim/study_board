@@ -59,7 +59,7 @@ public class BoardDAO {
 	}
 
 	public void boardDelete(int bnum) {
-		int n = template.delete("BoardMapper.boardDelete", bnum);		
+		int n = template.delete("BoardMapper.boardDelete", bnum);			
 	}
 
 	public Page boardList(HashMap<String, Object> map) {
@@ -114,24 +114,22 @@ public class BoardDAO {
 	}
 	
 	public void fileInsert(UploadFile imgFile) {
+		String path = "F:\\programming\\upload";
 		for (CommonsMultipartFile f : imgFile.getTheFile()) {
-			String path = "F:\\programming\\upload";
-			String oriName = f.getOriginalFilename();
-			
+			String oriName = f.getOriginalFilename();			
 			System.out.println("boardInsert       "+oriName);
-
 			// 파일명 암호화 확장자 분리하고 Uuid 값으로 치환
 			String extension = oriName.substring(oriName.lastIndexOf('.'));
 			String savName = imgFile.getUuid() + extension;
 
 			// 저장 경로 설정
-			File location = new File(path, savName);
+			File file = new File(path, savName);
 			
 			imgFile.setSavName(savName);
 			imgFile.setOriName(oriName);
 			
 			try {
-				f.transferTo(location);
+				f.transferTo(file);
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -140,6 +138,17 @@ public class BoardDAO {
 				e.printStackTrace();
 			}
 			int n = template.insert("BoardMapper.fileInsert", imgFile);		
+		}		
+	}
+	
+	public void fileDelete(int bnum) {
+		List<UploadFile> temp = template.selectList("BoardMapper.fileSelect", bnum);
+		System.out.println("삭제파일: "+temp);	
+		String path = "F:\\programming\\upload";
+		
+		for (UploadFile f : temp) {		
+			//실물 데이터 삭제
+			new File(path, f.getSavName()).delete();
 		}		
 	}
 

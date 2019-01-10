@@ -33,13 +33,15 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'link:advanced';
 	
 	
-	config.extraPlugins = 'wordcount', 'easyimage';
+	config.extraPlugins = 'easyimage', 'imagebase';
 	
 	config.easyimage = {
 		cloudServices_tokenUrl: 'https://example.com/cs-token-endpoint',
 		cloudServices_uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'
 	}
-	config.wordcount = {
+	config.filebrowserUploadMethod = 'form';
+	
+	/*config.wordcount = {
 
 	    // Whether or not you want to show the Word Count
 	    showWordCount: false,
@@ -48,9 +50,18 @@ CKEDITOR.editorConfig = function( config ) {
 	    showCharCount: true,
 	    
 	    // Maximum allowed Word Count
-/*	    maxWordCount: 100,*/
+	    maxWordCount: 100,
 
 	    // Maximum allowed Char Count
 	    maxCharCount: 2000
-	};
+	};*/
+	
+	config.extraPlugins = 'autogrow';
+	config.autoGrow_minHeight = 250;
+	config.autoGrow_maxHeight = 600;
+	
+	config.enterMode = CKEDITOR.ENTER_BR;
+	config.basicEntities = false;
+	
+	
 };

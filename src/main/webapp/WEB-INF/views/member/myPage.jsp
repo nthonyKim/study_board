@@ -49,11 +49,11 @@
 		</tr>
 		<tr>
 			<th>PW</th>
-			<td><input type="password" name="passwd" id="passwd1" ></td>
+			<td><input type="password" name="passwd" id="passwd1" maxlength="4"></td>
 		</tr>
 		<tr>
 			<th>PW CONFIRM</th>
-			<td><input type="password" name="passwd2" id="passwd2"><span id="presult"></span></td>
+			<td><input type="password" name="passwd2" id="passwd2" maxlength="4"><span id="presult"></span></td>
 		</tr>
 		<tr>
 			<th>NAME</th>

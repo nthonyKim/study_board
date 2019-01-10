@@ -9,6 +9,7 @@
 		var cke = CKEDITOR.instances['content'];
 	
 	 cke.on('key', function(e) {
+		 console.log(cke.getData().length)
 			var deleteKey = 46;
 			var backspaceKey = 8;
 			var keyCode = e.data.keyCode;
@@ -16,8 +17,8 @@
 				return true;
 			} else {
 				var str = CKEDITOR.instances.content.getData();
-				if (str.length >= 6000){
-					alert("6000 바이트까지 작성하실 수 있습니다")
+				if (str.length >= 3000){
+					alert("내용이 너무 깁니다")
 					return false;
 				}
 			}
@@ -39,8 +40,8 @@
 				alert("내용을 입력하세요");
 				content.focus();
 				e.preventDefault();
-			} else if (cke.getData().length >= 6000) {
-				alert("내용이 너무 깁니다.");
+			} else if (cke.getData().length >= 3000) {
+				alert("내용이 너무 깁니다");
 				e.preventDefault();
 			}
 		})
@@ -68,7 +69,7 @@
 				</tr>
 
 				<tr>
-					<td colspan="2"><textarea name="content" id="content" class="bcontent"></textarea></td>
+					<td colspan="2"><textarea name="content" id="content" class="bcontent" maxlength="3000"></textarea></td>
 				</tr>
 				<tr>
 				<td colspan="2">

@@ -5,12 +5,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	$(document).ready(function() {	
+		CKEDITOR.replace( 'content' );
+		var cke = CKEDITOR.instances['content'];
 		var title = $("#title");
 		title.focus();		
-		console.log(CKEDITOR.instances['content'])
+		console.log(cke)
 
-		var con = "${board.content}"
-		CKEDITOR.instances['content'].setData(con);
+ 		var con = $("#bdContent")
+		CKEDITOR.instances['content'].setData(con.val()); 
 		// 공백 시 submit X
 		$("form").on("submit", function(e) {
 			var cke = CKEDITOR.instances['content'].getData();
@@ -31,6 +33,7 @@
 <body>
 	<form action="loginCheck/boardUpdate" method="post">
 		<input type="hidden" name="bnum" value="${board.bnum}">
+		<input type="hidden" id="bdContent"value="${board.content}">
 		<div>
 			<table class="tbl" border="1">
 				<tr>
@@ -39,7 +42,7 @@
 				</tr>
 				<tr>
 					<th>title</th>
-					<td><input type="text" value="${board.title}" name="title" id="title"></td>
+					<td><input type="text" value="${board.title}" name="title" id="title" maxlength="30"></td>
 				</tr>
 				<tr>
 					<td colspan="2"><textarea name="content" id="content" class="bcontent"></textarea></td>
@@ -48,12 +51,9 @@
 		</div>
 
 		<div class="btnGroup">
-			<a href="boardView?bnum=${board.bnum}"><button class="btn darkGray">취소</button></a>
+			<a href="boardView?bnum=${board.bnum}"><button type="button" class="btn darkGray">취소</button></a>
 			<button class="btn mint" type="submit">완료</button>
 		</div>
 	</form>
-	<script>
-		CKEDITOR.replace('content');
-	</script>
 </body>
 </html>

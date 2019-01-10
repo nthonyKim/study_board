@@ -38,9 +38,9 @@ $(document).ready(function() {
 			<col style="width:30%">
 			<col style="width:*">
 	</colgroup>			
-	<tr><th>ID</th><td><input type="text" name="userid" id="userid">
+	<tr><th>ID</th><td><input type="text" name="userid" id="userid" maxlength="10">
 	</td></tr>	
-	<tr><th>PW</th><td><input type="password" name="passwd" id="passwd">
+	<tr><th>PW</th><td><input type="password" name="passwd" id="passwd" maxlength="4">
 	</td></tr>	
 </table>
 <div class="btnGroup alignC underTable">

@@ -131,6 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="boardInsert" parameterType="Board">
+	
 		insert into board
 		( bnum
 		, title
@@ -196,6 +197,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, #{oriName}
 		, #{savName})
 	</insert>
+	
+	<delete id="fileDelete" parameterType="UploadFile">
+		delete from board_file
+		where bnum = #{bnum}
+	</delete>
 	
 	<select id="fileSelect" parameterType="int" resultType="UploadFile">
 		select *
