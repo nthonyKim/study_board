@@ -30,32 +30,17 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Underline,Strike,Subscript,Superscript';
 
 	// Dialog windows are also simplified.
-	config.removeDialogTabs = 'link:advanced';
-	
+	config.removeDialogTabs = 'link:advanced';	
 	
 	config.extraPlugins = 'easyimage', 'imagebase';
 	
 	config.easyimage = {
-		cloudServices_tokenUrl: 'https://example.com/cs-token-endpoint',
-		cloudServices_uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'
+		cloudServices_tokenUrl: 'https://36786.cke-cs.com/token/dev/HY0uayu8EoHKkSwa8CGEP5NIdC6P42g2eLBSe1Y43TECGKHGPVkTe0Wh29Dp',
+		cloudServices_uploadUrl: 'https://36786.cke-cs.com/easyimage/upload/'
 	}
+	
 	config.filebrowserUploadMethod = 'form';
-	
-	/*config.wordcount = {
-
-	    // Whether or not you want to show the Word Count
-	    showWordCount: false,
-
-	    // Whether or not you want to show the Char Count
-	    showCharCount: true,
-	    
-	    // Maximum allowed Word Count
-	    maxWordCount: 100,
-
-	    // Maximum allowed Char Count
-	    maxCharCount: 2000
-	};*/
-	
+		
 	config.extraPlugins = 'autogrow';
 	config.autoGrow_minHeight = 250;
 	config.autoGrow_maxHeight = 600;

@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	$(document).ready(function() {
-		CKEDITOR.replace( 'content' );
+		CKEDITOR.replace('content');
 		var cke = CKEDITOR.instances['content'];
 	
 	 cke.on('key', function(e) {
@@ -23,6 +23,24 @@
 				}
 			}
 		}); 
+	 
+		 $(":file").on("change", filesCheck);
+	 
+		var tf = true;
+		function filesCheck(e) {
+		    var files = e.target.files;
+			console.log("파일",files);
+			tf = true;
+			for (let f of files) {
+		    	if(f.type.match("image.*")) {
+		            alert("이미지는 에디터에서 첨부해 주세요");
+		            tf = false;
+		        } else if (f.size > 10485760){
+		        	alert("첨부파일의 사이즈가 너무 큽니다");
+		        	tf = false;
+		        }
+			}
+		}		
 
 		//공백 시 submit X
 		$("form").on("submit", function(e) {
@@ -43,7 +61,11 @@
 			} else if (cke.getData().length >= 3000) {
 				alert("내용이 너무 깁니다");
 				e.preventDefault();
+			} else if(tf == false){
+				alert("첨부파일을 확인해 주세요");
+				e.preventDefault();
 			}
+
 		})
 
 	})

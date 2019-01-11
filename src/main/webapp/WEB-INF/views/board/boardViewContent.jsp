@@ -98,9 +98,7 @@
 		})
 
 	})
-</script>
-
-<body>	
+</script>	
 	<div>
 		<div>
 			<!-- 본문 -->
@@ -110,15 +108,15 @@
 			<col style="width: *">
 				</colgroup>
 				<tr>
-					<td><span class="small">${board.bnum}</span></td>
+					<td><span class="">${board.bnum}</span></td>
 					<td><span><a class="alignC aLink bold" href="boardView?bnum=${board.bnum}">${board.title}</a></span></td>
 				</tr>
 				<tr>
-					<td>
+					<td class="small">
 						<%-- <a class="aLink small" href="boardSearchAuthor?author=${board.author}">${board.author}</a> --%>
 						${board.author}
 					</td>
-					<td class="alignR small">${board.readcnt}&nbsp;&nbsp;${board.regdate}</td>
+					<td class="alignR">${board.readcnt}&nbsp;&nbsp;${board.regdate}</td>
 				</tr>
 				<tr>
 					<td colspan="2">
@@ -126,11 +124,10 @@
 						<div class="bcontent">
 							<c:out value="${board.content}" escapeXml="false" />
 						</div> <!-- 첨부파일 목록 --> <c:if test="${!empty file}">
-							<div class="small alignR boxGray">
+							<div class="xsmall alignR boxGray">
 								첨부파일:
 								<c:forEach var="img" items="${file}">
-								<a class="aLink small" href="fileDown?fileName=${img.savName}">${img.oriName}</a>
-									<br>
+								<a class="aLink" href="fileDown?fileName=${img.savName}">${img.oriName}</a>&nbsp;							
 								</c:forEach>
 							</div>
 						</c:if>
@@ -143,7 +140,7 @@
 			<div id="commentContainer">
 				<div id="comment underTable">
 				<c:if test="${comment.totalCount > 0}">
-					<p class="small bold" style="margin:20px;">댓글 ${comment.totalCount}</p>
+					<p class="bold" style="margin:20px;">댓글 ${comment.totalCount}</p>
 				</c:if>
 					<table class="tbl">
 					<colgroup>
@@ -155,15 +152,15 @@
 						<c:forEach var="cmt" items="${comment.list}">
 							<tr id="commentNum${cmt.cnum}">
 								<td>
-								<span class="small">${cmt.author}</span></td>
+								<span class="">${cmt.author}</span></td>
 								 <td><span><c:out value="${cmt.content}"/></span></td>
 								<c:choose>
 									<c:when test="${user.userid eq 'admin' || user.username eq cmt.author}">
-										<td class="small alignR"> ${cmt.regdate}</td>
+										<td class="alignR"> ${cmt.regdate}</td>
 										<td class="alignR "><button id="cmtDel${cmt.cnum}" data-cnum="${cmt.cnum}" class="gray cmtDel">삭제</button></td>											
 									</c:when>
 									<c:otherwise>
-										<td colspan="2" class="small alignR"> ${cmt.regdate}</td>
+										<td colspan="2" class="alignR"> ${cmt.regdate}</td>
 									</c:otherwise>
 								</c:choose>
 									
@@ -196,7 +193,7 @@
 								<input type="text" name="content" id="content" maxlength="600" placeholder="내용을 입력하세요">
 							</c:otherwise>
 						</c:choose></td>
-					<td class="small alignR">
+					<td class="alignR">
 						<button class="mint" type="submit">완료</button>
 					</td>
 				</form>
@@ -213,4 +210,4 @@
 			<a id="list"><button class="btn darkGray" >목록</button></a>
 		</div>
 	</div>
-</body>
+

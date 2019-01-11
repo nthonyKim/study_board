@@ -29,6 +29,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from simplemember
 		where userid = trim(#{userid})
 	</select>
+	
+	<select id="nameCheck" parameterType="string" resultType="int">
+		select
+		count(*)
+		from simplemember
+		where username = trim(#{username})
+	</select>
 
 	<update id="memberUpdate" parameterType="Member">
 		update simplemember

@@ -14,6 +14,7 @@
 		})// 
 		
 		var temp = $("#bnum${board.bnum}");
+		$(temp).removeClass("aLink");
 		$(temp).addClass("highlight");
 		
 		//페이징
@@ -49,8 +50,6 @@
 
 	})
 </script>
-
-<body>
 	<div id="bList">
 		<table class="tbl" border="1">
 			<thead>
@@ -65,7 +64,7 @@
 			<tbody>
 				<c:forEach var="bd" items="${page.list}" varStatus="status">
 					<tr>
-						<td class="small alignC">${bd.bnum}</td>
+						<td class="alignC">${bd.bnum}</td>
 						<td><c:choose>
 								<c:when test="${bd.pub == 'y' }">									
 									<a class="aLink" href="boardView?bnum=${bd.bnum}" id="bnum${bd.bnum}">${bd.title}</a>
@@ -76,7 +75,7 @@
 											<a class="aLink" href="boardView?bnum=${bd.bnum}">${bd.title}</a>
 										</c:when>
 										<c:otherwise>
-										<span class="small">관리자와 작성자만 볼 수 있는 게시글 입니다.</span>
+										<span class="">관리자와 작성자만 볼 수 있는 게시글 입니다.</span>
 										</c:otherwise>
 									</c:choose>
 								</c:when>
@@ -86,8 +85,8 @@
 							</c:if></td>
 						<td class="alignC"><%-- <a class="aLink search">${board.author}</a> --%>
 							${bd.author}</td>
-						<td class="small alignC">${bd.readcnt}</td>
-						<td class="small alignC">${bd.regdate}</td>
+						<td class="alignC">${bd.readcnt}</td>
+						<td class="alignC">${bd.regdate}</td>
 					</tr>
 					
 				</c:forEach>
@@ -113,5 +112,3 @@
 		</div>
 	<p class="underTable page">page</p>
 	</div>
-</body>
-</html>

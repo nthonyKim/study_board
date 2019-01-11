@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<body>
 	<c:choose>
 		<c:when test="${board.pub eq 'n'}">
 			<c:choose>
@@ -16,12 +15,12 @@
 							<col style="width: *">
 						</colgroup>
 						<tr>
-							<td><span class="small">${board.bnum}</span></td>
+							<td><span class="">${board.bnum}</span></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td>${board.author}</td>
-							<td class="alignR small">${board.readcnt}&nbsp;&nbsp;${board.regdate}</td>
+							<td class="alignR">${board.readcnt}&nbsp;&nbsp;${board.regdate}</td>
 						</tr>
 						<tr>
 							<td colspan="2">
@@ -40,7 +39,8 @@
 			<jsp:include page="boardViewContent.jsp" flush="true" />	
 		</c:when>
 	</c:choose>
+		<c:if test="${!empty page}">
 	<div id="bListContainer" style="margin-top: 100px;">
 		<jsp:include page="boardList.jsp" flush="true" />
-	</div>
-</body>
+	</div>				
+		</c:if>

@@ -30,4 +30,9 @@ public class MemberDAO {
 		int n = template.update("MemberMapper.memberUpdate", member);		
 	}
 
+	public int nameCheck(String username) {
+		int n = template.selectOne("MemberMapper.nameCheck", username);
+		return n;
+	}
+
 }

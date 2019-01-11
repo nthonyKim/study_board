@@ -47,13 +47,23 @@ public class MemberController {
 	
 	@RequestMapping(value="/idCheck", produces="application/text; charset=UTF-8")
 	public @ResponseBody String idCheck(@RequestParam String userid) {
-		String mesg = "아이디 사용가능";
+		String mesg = "사용가능한 ID입니다";
 		int n = service.idCheck(userid);
 		if(n != 0) {
-			mesg = "아이디 중복";
+			mesg = "중복된 ID입니다";
 		}
 		return mesg;		
 	}	
+	
+	@RequestMapping(value="nameCheck", produces="application/text; charset=UTF-8")
+	public @ResponseBody String nameCheck(@RequestParam String username) {
+		String mesg = "사용가능한 이름입니다";
+		int n = service.nameCheck(username);
+		if(n != 0) {
+			mesg = "중복된 이름입니다";
+		}
+		return mesg;		
+	}
 	
 	@RequestMapping("/loginCheck/mypage")
 	public String mypage(HttpSession session) {

@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<style>
-#result {color: orange;}
-#result2 {color: orange;}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
 				var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/;
@@ -16,7 +12,7 @@ $(document).ready(function() {
 				var username = $("#username");					
 				
 				//id 유효성
-				$("#userid").on("keyup",  function () {
+				$(userid).on("keyup",  function () {
 					if(!checkStrId.test(userid.val())) {
 						$("#result").text('영문과 숫자 4~10자 이내로 입력하세요.');
 					}else{					
@@ -25,7 +21,7 @@ $(document).ready(function() {
 						url : "idCheck",
 						dataType : "text",
 						data : {
-							userid : $("#userid").val()
+							userid : userid.val()
 						},
 						success : function(responseData, status, xhr) {
 							if ($("#userid").val().length == 0) {
@@ -40,7 +36,30 @@ $(document).ready(function() {
 					});
 					}
 					
-				})		
+				})	
+				
+				//username 
+				$(username).on("keyup",  function () {
+					$.ajax({
+						type : "GET",
+						url : "nameCheck",
+						dataType : "text",
+						data : {
+							username : username.val()
+						},
+						success : function(responseData, status, xhr) {
+							if ($(username).val().length == 0) {
+								$("#result3").text("");
+							} else {
+								$("#result3").text(responseData);
+							};
+						},
+						error : function(xhr, status, error) {
+							console.log(error);
+						}
+					});				
+				})	
+				
 							
 				//비밀번호 유효성
 				$(passwd2).on("keyup", function() {	
@@ -88,7 +107,8 @@ $(document).ready(function() {
 							username.focus();
 							return false;
 						} else if ($("#result2").text() != "비밀번호 일치"
-								|| $("#result").text() != "아이디 사용가능") {
+								|| $("#result").text() != "사용가능한 ID입니다" 
+								|| $("#result3").text() != "사용가능한 이름입니다") {
 							alert("아이디나 비밀번호를 확인해 주세요.")
 							return false;
 						} else if (passwd1.val() == userid.val()) {
@@ -121,7 +141,7 @@ $(document).ready(function() {
 				<tr>
 					<th><span class="required" title="필수 입력">ID</span></th>
 					<td><input type="text" name="userid" id="userid" maxlength="10"> 
-					<span id="result" class="small bold"></span></td>
+					<span id="result" class="bold highlight"></span></td>
 				</tr>
 				<tr>
 					<th><span class="required" title="필수 입력">PW</span></th>
@@ -131,11 +151,12 @@ $(document).ready(function() {
 				<tr>
 					<th>PW CONFIRM</th>
 					<td><input type="password" name="passwd2" id="passwd2" maxlength="4">
-						<span id="result2" class="small bold"></span></td>
+						<span id="result2" class="bold highlight"></span></td>
 				</tr>
 				<tr>
 					<th><span class="required" title="필수 입력">NAME</span></th>
-					<td><input type="text" name="username" id="username" maxlength="10"></td>
+					<td><input type="text" name="username" id="username" maxlength="10">
+					<p id="result3" class="bold highlight"></p></td>
 				</tr>
 			</table>
 			<div class="btnGroup alignC">
