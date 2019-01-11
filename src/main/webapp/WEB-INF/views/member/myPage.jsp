@@ -53,7 +53,7 @@
 		</tr>
 		<tr>
 			<th>PW CONFIRM</th>
-			<td><input type="password" name="passwd2" id="passwd2" maxlength="4"><span id="presult"></span></td>
+			<td><input type="password" name="passwd2" id="passwd2" maxlength="4"><span id="presult" class="highlight"></span></td>
 		</tr>
 		<tr>
 			<th>NAME</th>
