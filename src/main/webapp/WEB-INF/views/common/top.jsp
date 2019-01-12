@@ -14,12 +14,10 @@
 				<li><a href="loginForm"><img src="images/icon/users.png"></a></li>
 			</c:when>
 			<c:when test="${!empty user}">
-				<li><a class="alignR" href="loginCheck/mypage"><img
-						src="images/icon/user.png"></a></li>
-				<li><a class="alignR" href="loginCheck/logout"><img
-						src="images/icon/logout.png"></a></li>
+
+				<li><a href="loginCheck/mypage"><img src="images/icon/user.png"></a></li>
+				<li><a href="loginCheck/logout"><img src="images/icon/logout.png"></a></li>
 			</c:when>
 		</c:choose>
 	</ul>
-
 </div>
