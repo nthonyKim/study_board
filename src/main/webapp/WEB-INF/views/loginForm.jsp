@@ -5,4 +5,5 @@
 <div class="wrap">
 	<div class="top"><jsp:include page="common/top.jsp" flush="true"/></div>
 	<div class="contents"><jsp:include page="member/loginForm.jsp" flush="true"/></div>
+	<div class="foot"><jsp:include page="common/foot.jsp" flush="true"/></div>
 </div>

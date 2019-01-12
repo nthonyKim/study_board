@@ -48,7 +48,7 @@ public class BoardController {
 		map.put("search", search);
 		
 		Page page = service.boardList(map);
-		
+		session.removeAttribute("board");
 		session.removeAttribute("page");
 		session.removeAttribute("searching");
 		
@@ -97,6 +97,7 @@ public class BoardController {
 	public String boradUpdate(@RequestParam int bnum, HttpSession session) {
 		Board board = service.boardView(bnum);
 		session.setAttribute("board", board);
+		System.out.println(board);
 		return "redirect:../boardUpdateForm";
 	}
 	

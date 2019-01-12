@@ -5,11 +5,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	$(document).ready(function() {
-		CKEDITOR.replace('content');
+		CKEDITOR.replace( 'content', {
+		    cloudServices_tokenUrl: 'https://36786.cke-cs.com/token/dev/HY0uayu8EoHKkSwa8CGEP5NIdC6P42g2eLBSe1Y43TECGKHGPVkTe0Wh29Dp',
+		    cloudServices_uploadUrl: 'https://36786.cke-cs.com/easyimage/upload/'
+		} );
+		
+		//CKEDITOR.replace('content');
 		var cke = CKEDITOR.instances['content'];
 	
 	 cke.on('key', function(e) {
 		 console.log(cke.getData().length)
+		 $(".textCount").text(cke.getData().length+"/3000");
 			var deleteKey = 46;
 			var backspaceKey = 8;
 			var keyCode = e.data.keyCode;
@@ -95,12 +101,16 @@
 				</tr>
 				<tr>
 				<td colspan="2">
+					<p class="textCount alignR highlight"></p>
+				</td></tr>
+				<tr>
+				<td colspan="2">
 					<input type="file" name="theFile" multiple="multiple"></td>
 				</tr>
 			</table>
 	</div>
 
-	<div class="btnGroup underTable">
+	<div class="btnGroup">
 		<a href="boardList"><button class="btn darkGray" type="button">취소</button></a>
 		<button class="btn mint" type="submit">완료</button>
 	</div>

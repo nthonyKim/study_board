@@ -1,8 +1,5 @@
 package com.app.dto;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.ibatis.type.Alias;
 
 @Alias("Board")

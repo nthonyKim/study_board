@@ -13,6 +13,7 @@
 		$("#del").on("click", function(e) {
 			var txt = confirm("삭제하시겠습니까?");
 			if (txt == true) {
+				//서버 없이 앞단에서 파일이름 보내기
 				var num = $(this).attr("data-bnum");
 				location.href = "loginCheck/boardDelete?bnum=" + num;
 			} else {

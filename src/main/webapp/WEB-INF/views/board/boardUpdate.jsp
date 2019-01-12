@@ -5,24 +5,46 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	$(document).ready(function() {	
-		CKEDITOR.replace( 'content' );
+		CKEDITOR.replace( 'content', {
+		    cloudServices_tokenUrl: 'https://36786.cke-cs.com/token/dev/HY0uayu8EoHKkSwa8CGEP5NIdC6P42g2eLBSe1Y43TECGKHGPVkTe0Wh29Dp',
+		    cloudServices_uploadUrl: 'https://36786.cke-cs.com/easyimage/upload/'
+		} );
 		var cke = CKEDITOR.instances['content'];
 		var title = $("#title");
 		title.focus();		
-		console.log(cke)
 
- 		var con = $("#bdContent")
-		CKEDITOR.instances['content'].setData(con.val()); 
+ 		var con = "${board.content}";
+		cke.setData(con); 
+ 		
+ 		 cke.on('key', function(e) {
+ 			$(".textCount").text(cke.getData().length+"/3000");
+ 			 console.log(cke.getData().length)
+ 				var deleteKey = 46;
+ 				var backspaceKey = 8;
+ 				var keyCode = e.data.keyCode;
+ 				if (keyCode === deleteKey || keyCode === backspaceKey) {
+ 					return true;
+ 				} else {
+ 					//var str = cke.getData();
+ 					if ( cke.getData().length >= 3000){
+ 						alert("내용이 너무 깁니다")
+ 						return false;
+ 					}
+ 				}
+ 			}); 
 		// 공백 시 submit X
 		$("form").on("submit", function(e) {
-			var cke = CKEDITOR.instances['content'].getData();
+			
 			if (title.val() == "") {
 				alert("제목을 입력해 주십시오");
 				title.focus();
 				e.preventDefault();
-			} else if (cke == "") {
+			} else if (cke.getData() == "") {
 				alert("내용을 입력해 주십시오");
 				content.focus();
+				e.preventDefault();
+			} else if (cke.getData().length >= 3000) {
+				alert("내용이 너무 깁니다");
 				e.preventDefault();
 			}
 		})
@@ -30,10 +52,10 @@
 	})
 </script>
 
-<body>
+
 	<form action="loginCheck/boardUpdate" method="post">
 		<input type="hidden" name="bnum" value="${board.bnum}">
-		<input type="hidden" id="bdContent"value="${board.content}">
+		<input type="hidden" name="content"  value="${board.content}">
 		<div>
 			<table class="tbl" border="1">
 				<tr>
@@ -45,8 +67,12 @@
 					<td><input type="text" value="${board.title}" name="title" id="title" maxlength="30"></td>
 				</tr>
 				<tr>
-					<td colspan="2"><textarea name="content" id="content" class="bcontent"></textarea></td>
+					<td colspan="2"><textarea id="content" class="bcontent" maxlength="3000" value="${board.content}"></textarea></td>
 				</tr>
+								<tr>
+				<td colspan="2">
+					<p class="textCount alignR highlight"></p>
+				</td></tr>
 			</table>
 		</div>
 
@@ -55,5 +81,3 @@
 			<button class="btn mint" type="submit">완료</button>
 		</div>
 	</form>
-</body>
-</html>

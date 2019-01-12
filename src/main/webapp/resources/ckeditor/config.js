@@ -27,19 +27,19 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// The default plugins included in the basic setup define some buttons that
 	// are not needed in a basic editor. They are removed here.
-	config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Underline,Strike,Subscript,Superscript';
+	config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript';
 
 	// Dialog windows are also simplified.
 	config.removeDialogTabs = 'link:advanced';	
 	
-	config.extraPlugins = 'easyimage', 'imagebase';
 	
-	config.easyimage = {
-		cloudServices_tokenUrl: 'https://36786.cke-cs.com/token/dev/HY0uayu8EoHKkSwa8CGEP5NIdC6P42g2eLBSe1Y43TECGKHGPVkTe0Wh29Dp',
-		cloudServices_uploadUrl: 'https://36786.cke-cs.com/easyimage/upload/'
-	}
+	config.removePlugins = 'image';
+	config.extraPlugins = 'easyimage';
+
+	/*config.cloudServices_tokenUrl = 'https://36786.cke-cs.com/token/dev/HY0uayu8EoHKkSwa8CGEP5NIdC6P42g2eLBSe1Y43TECGKHGPVkTe0Wh29Dp';
+	config.cloudServices_uploadUrl = 'https://36786.cke-cs.com/easyimage/upload/';*/
 	
-	config.filebrowserUploadMethod = 'form';
+	//config.filebrowserUploadMethod = 'form';
 		
 	config.extraPlugins = 'autogrow';
 	config.autoGrow_minHeight = 250;

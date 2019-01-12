@@ -4,8 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="css/common.css" />
 
 <div class="wrap">
-<div class="body">
 	<div class="top"><jsp:include page="common/top.jsp" flush="true"/></div>
 	<div class="contents"><jsp:include page="member/myPage.jsp" flush="true"/></div>
-</div>
+	<div class="foot"><jsp:include page="common/foot.jsp" flush="true"/></div>
 </div>

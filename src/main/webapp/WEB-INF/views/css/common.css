@@ -16,8 +16,8 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 12px;
-	color:#555;
+	font-size: 13px;
+	color:#666666;
 	/* font: inherit; */ 
 	vertical-align: baseline;
 	font-family: 'Noto Sans KR', sans-serif;
@@ -31,7 +31,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1.5;
-	background: #f8f8f8;
+	background: #24373a;
+
 }
 blockquote, q {
 	quotes: none;
@@ -48,16 +49,15 @@ table {
 }
 
 .tbl input {height:25px;padding:0 5px;vertical-align:middle;}
-select {height:25px;padding:0 5px;}
+select {border: 0px; border-right: 1px solid #ddd; bottom: 1px; position: relative; background: none;}
 
 /* custom */
 /* table */
-.tbl {border-top:2px solid #61c6c5; table-layout:fixed; word-break:break-all; margin: auto;}
+.tbl {border-top:2px solid #ff5400; table-layout:fixed; word-break:break-all; margin: auto;}
 .tbl th, .tbl td {padding:10px 10px;vertical-align:middle;border-bottom:1px dotted #ddd;}
-.tbl th {color:#333;font-weight:bold;background:#F2F2F2;/* border-right:1px solid #ddd; */}
+.tbl th {color:#333;font-weight:bold;}
 .tbl.Form{width:500px;}
-.tbl.Form th{background:#f8f8f8;}
-#commentContainer .tbl{border-top: 2px solid #61c6c5;}
+
 
 /* align */
 .alignC {text-align:center !important;}    
@@ -67,11 +67,11 @@ select {height:25px;padding:0 5px;}
 
 .bold{font-weight: bold;}
 h1 {text-align: center; margin-bottom: 20px;}
-.contents {background:#f8f8f8; padding:50px; border-radius: 20px; margin-bottom: 100px;height: auto;}
+.contents {background:#fcfcfc; padding:50px; border-radius: 20px; margin-bottom: 50px;height: auto;}
 
 /* boardView */
 .bcontent{min-height: 300px; line-height: 1.8;}
-.bcontent img{max-width: 700px !important;}
+.bcontent img{max-width: 100%; margin:auto;text-align: center;}
 .boxGray{background-color: #f1f1f1; border-radius: 4px; display: block; padding: 8px; }
 /* boardWrite */
 textarea{resize: vertical; width:100%; height:auto;}
@@ -80,11 +80,11 @@ textarea{resize: vertical; width:100%; height:auto;}
 .wrap {width:50%; overflow:hidden; margin:0 auto; min-width:800px; /* background-color: #fff; */ }
 .topmenu {padding: 20px; width: 100%; height: 100px; box-sizing: border-box;/* position: fixed; */}
 .topmenu li{display: inline-block; margin:10px; }
-.topmenu ul{text-align: right; list-style:none; margin-right: 50px;}
-.topmenu img{/* filter:invert(100%); */ width:20px; opacity: 50%;}
+.topmenu ul{list-style:none; margin-right: 50px;}
+.topmenu img{filter:invert(100%); width:20px; opacity: 1;}
 
 /* a text decoration */
-.highlight{color:#2453c1; font-weight: bold; text-decoration:none;}
+.highlight{color:#ff5400; font-weight: bold; text-decoration:none;}
 .aLink {text-decoration:none; color:#666666;}
 .aLink:hover {text-decoration:underline;}
 
@@ -94,23 +94,22 @@ textarea{resize: vertical; width:100%; height:auto;}
 
 /* btn */
 .btnGroup {margin-top:30px;text-align:right; margin-bottom: 30px; vertical-align: bottom;}
-.btn {padding:10px 20px;margin-right:3px;min-width:100px;height:auto;font-size:16px;cursor:pointer;}
-.mint {background:#61c6c5;color:#fff;border:1px solid #47b3b2;}
+.btn {padding:10px 20px;margin-right:3px;min-width:100px;height:auto;font-size:16px;cursor:pointer; }
+.mint {background:#ff5400;color:#fff;border:1px solid #e84d00;}
 .darkGray {color:#fff;background:#555;border:1px solid #4a4a4a;}
 .gray{color:#fff; background: #c0c0c0; border:1px solid #ababab;}
+.none{border:0px; background: none;}
 a.btn {text-decoration:none;}
 
 /* etc */
 .underTable{margin-top:50px;}
-.iconGroup{text-align:right;}
 .iconGroup img{width:20px; height: 20px;}
-.searchBox{vertical-align: middle;}
-#search{ width: 100px; border: 1px solid #ddd;
-    font-size: 16px;    
-    margin: 5px;
+.searchBox{vertical-align: middle; border: 1px solid #ddd; border-radius:20px; width:250px; height: 30px; box-sizing: border-box; background: none;bottom: 22px; position: relative;}
+#search{ width: 100px; border: 0px; width: 100px;
+    border: 0px;
+    bottom: 2px;
     box-sizing: border-box;
-}
-#result{}
+    position: relative;}
 
 /* page */
 .page {color:#c0c0c0;text-decoration:none;text-align: center; margin-top: 20px;}

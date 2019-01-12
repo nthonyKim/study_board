@@ -7,11 +7,11 @@
 	$(document).ready(function() {
 		//검색
 		$("#search").on("keypress", function(e) {
-			if (e.which == 13) {				
+			if (e.which == 13) {
 				$("form").attr("action", "boardList");
 				$(this).submit();
 			}
-		})// 
+		})//  
 		
 		var temp = $("#bnum${board.bnum}");
 		$(temp).removeClass("aLink");
@@ -75,13 +75,13 @@
 											<a class="aLink" href="boardView?bnum=${bd.bnum}">${bd.title}</a>
 										</c:when>
 										<c:otherwise>
-										<span class="">관리자와 작성자만 볼 수 있는 게시글 입니다.</span>
+										<span class="" style="color: #ddd">관리자와 작성자만 볼 수 있는 게시글 입니다.</span>
 										</c:otherwise>
 									</c:choose>
 								</c:when>
 							</c:choose> 
 							<c:if test="${bd.commentCnt > 0}">
-								<span class="xsmall">${bd.commentCnt}</span>
+								<span class="highlight xsmall">${bd.commentCnt}</span>
 							</c:if></td>
 						<td class="alignC"><%-- <a class="aLink search">${board.author}</a> --%>
 							${bd.author}</td>
@@ -93,11 +93,11 @@
 			</tbody>
 		</table>
 		
-	<div class="btnGroup">
+	<div class="btnGroup" style=" float: right;">
 		<a class="btn darkGray" href="boardList">전체글</a> 
 		<a class="btn mint" href="loginCheck/boardWrite">글쓰기</a>
 	</div>
-	<!-- 검색 버튼 추가할 것 -->
+	<!-- 검색 -->
 	<div class="alignC underTable">
 			<form method="get">
 			<div class="searchBox">
@@ -107,8 +107,11 @@
 					<option value="title_content">제목+내용</option>
 				</select> 
 				<input type="text" name="keyWord" id="search" placeholder="검색어" style="margin-bottom: 14px" maxlength="10">
+				<!-- <img src="images/icon/search.png" style="padding-top: 2px"> -->
+				<button type="submit" class="none"><img src="images/icon/search.png" style="top: 3px; left: 10px; position: relative; opacity: 0.5;"></button>
 			</div>
 			</form>
 		</div>
-	<p class="underTable page">page</p>
+	<p class="underTable page">page</p>	
 	</div>
+	
