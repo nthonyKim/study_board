@@ -113,20 +113,20 @@ public class BoardDAO {
 		int n = template.insert("BoardMapper.commentInsert", cnt);		
 	}
 	
-	public void fileInsert(UploadFile imgFile) {
+	public void fileInsert(UploadFile dataFile) {
 		String path = "F:\\programming\\upload";
-		for (CommonsMultipartFile f : imgFile.getTheFile()) {
+		for (CommonsMultipartFile f : dataFile.getTheFile()) {
 			String oriName = f.getOriginalFilename();			
 			System.out.println("boardInsert       "+oriName);
 			// 파일명 암호화 확장자 분리하고 Uuid 값으로 치환
 			String extension = oriName.substring(oriName.lastIndexOf('.'));
-			String savName = imgFile.getUuid() + extension;
+			String savName = dataFile.getUuid() + extension;
 
 			// 저장 경로 설정
 			File file = new File(path, savName);
 			
-			imgFile.setSavName(savName);
-			imgFile.setOriName(oriName);
+			dataFile.setSavName(savName);
+			dataFile.setOriName(oriName);
 			
 			try {
 				f.transferTo(file);
@@ -137,17 +137,16 @@ public class BoardDAO {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			int n = template.insert("BoardMapper.fileInsert", imgFile);		
+			int n = template.insert("BoardMapper.fileInsert", dataFile);		
 		}		
 	}
 	
 	public void fileDelete(int bnum) {
 		List<UploadFile> temp = template.selectList("BoardMapper.fileSelect", bnum);
-		System.out.println("삭제파일: "+temp);	
 		String path = "F:\\programming\\upload";
 		
 		for (UploadFile f : temp) {		
-			//실물 데이터 삭제
+			//upload 폴더 내의 실제 데이터 삭제
 			new File(path, f.getSavName()).delete();
 		}		
 	}

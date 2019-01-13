@@ -60,9 +60,10 @@
 			$(".cmtPage").html(paging);
 		}
 		cmtPaging();
-		
+		var ajaxCallCount = 0;
 		//comment delete
 		$(".cmtDel").on("click", function(e) {
+			var cmtCount = "${comment.totalCount}"
 			var cnum = $(this).attr("data-cnum");
 			var txt = confirm("삭제하시겠습니까?");
 			var temp = $(this);
@@ -77,7 +78,12 @@
 					},
 					success : function(data, status, xhr) {
 						if (data == "success") {
-							$("#commentNum" + cnum).remove();
+							ajaxCallCount = ajaxCallCount+1;
+							console.log(ajaxCallCount);
+							$("#commentNum" + cnum).remove();							
+							cmtCount = cmtCount-ajaxCallCount;
+							$(".cmtCount").text("댓글 "+(cmtCount))								
+							
 							//$("#comment").load(" #comment"); 											
 						}
 					},
@@ -140,8 +146,8 @@
 			<!-- 댓글 (코멘트) -->
 			<div id="commentContainer">
 				<div id="comment underTable">
-				<c:if test="${comment.totalCount > 0}">
-					<p class="bold" style="margin:20px;">댓글 ${comment.totalCount}</p>
+				<c:if test="${comment.totalCount > 0}">				
+					<p class="bold cmtCount" style="margin:20px;">댓글 ${comment.totalCount}</p>
 				</c:if>
 					<table class="tbl">
 					<colgroup>

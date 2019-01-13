@@ -72,10 +72,10 @@
 								<c:when test="${bd.pub == 'n' }">
 									<c:choose>
 										<c:when test="${user.userid eq 'admin' || user.username eq bd.author}">
-											<a class="aLink" href="boardView?bnum=${bd.bnum}">${bd.title}</a>
+											<a class="aLink" href="boardView?bnum=${bd.bnum}" id="bnum${bd.bnum}">${bd.title}</a>
 										</c:when>
 										<c:otherwise>
-										<span class="" style="color: #ddd">관리자와 작성자만 볼 수 있는 게시글 입니다.</span>
+										<span style="color: #ddd">관리자와 작성자만 볼 수 있는 게시글 입니다.</span>
 										</c:otherwise>
 									</c:choose>
 								</c:when>
@@ -83,12 +83,10 @@
 							<c:if test="${bd.commentCnt > 0}">
 								<span class="highlight xsmall">${bd.commentCnt}</span>
 							</c:if></td>
-						<td class="alignC"><%-- <a class="aLink search">${board.author}</a> --%>
-							${bd.author}</td>
+						<td class="alignC">${bd.author}</td>
 						<td class="alignC">${bd.readcnt}</td>
 						<td class="alignC">${bd.regdate}</td>
-					</tr>
-					
+					</tr>					
 				</c:forEach>
 			</tbody>
 		</table>

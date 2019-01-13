@@ -16,9 +16,9 @@
  		var con = "${board.content}";
 		cke.setData(con); 
  		
- 		 cke.on('key', function(e) {
- 			$(".textCount").text(cke.getData().length+"/3000");
- 			 console.log(cke.getData().length)
+		cke.on("instanceReady", function(event) {
+ 		 cke.on('key', function(e) { 	
+ 			 textCount();
  				var deleteKey = 46;
  				var backspaceKey = 8;
  				var keyCode = e.data.keyCode;
@@ -26,15 +26,22 @@
  					return true;
  				} else {
  					//var str = cke.getData();
- 					if ( cke.getData().length >= 3000){
+ 					if ( cke.getData().length > 2200){
  						alert("내용이 너무 깁니다")
  						return false;
  					}
  				}
- 			}); 
+ 			});  		 
+		}); 		 
+ 		 
+ 		 function textCount(){
+ 			$(".textCount").text(cke.getData().length+"/2200");
+			 console.log(cke.getData().length);
+ 		 }
+ 		 
 		// 공백 시 submit X
 		$("form").on("submit", function(e) {
-			
+			$("#temp").val(cke.getData());
 			if (title.val() == "") {
 				alert("제목을 입력해 주십시오");
 				title.focus();
@@ -43,7 +50,7 @@
 				alert("내용을 입력해 주십시오");
 				content.focus();
 				e.preventDefault();
-			} else if (cke.getData().length >= 3000) {
+			} else if (cke.getData().length > 2200) {
 				alert("내용이 너무 깁니다");
 				e.preventDefault();
 			}
@@ -54,8 +61,7 @@
 
 
 	<form action="loginCheck/boardUpdate" method="post">
-		<input type="hidden" name="bnum" value="${board.bnum}">
-		<input type="hidden" name="content"  value="${board.content}">
+		<input type="hidden" name="bnum" value="${board.bnum}">		
 		<div>
 			<table class="tbl" border="1">
 				<tr>
