@@ -110,7 +110,11 @@ public class BoardDAO {
 	}
 
 	public void commentInsert(Comment cnt) {
-		int n = template.insert("BoardMapper.commentInsert", cnt);		
+		if(cnt.getParent() == 0) {
+			int n = template.insert("BoardMapper.commentInsertParentNull", cnt);					
+		}else {
+			int n = template.insert("BoardMapper.commentInsert", cnt);		
+		}
 	}
 	
 	public void fileInsert(UploadFile dataFile) {

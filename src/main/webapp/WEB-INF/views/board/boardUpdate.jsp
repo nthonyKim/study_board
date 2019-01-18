@@ -54,6 +54,7 @@
 				alert("내용이 너무 깁니다");
 				e.preventDefault();
 			}
+			cke.get
 		})
 
 	})
@@ -61,7 +62,8 @@
 
 
 	<form action="loginCheck/boardUpdate" method="post">
-		<input type="hidden" name="bnum" value="${board.bnum}">		
+		<input type="hidden" name="bnum" value="${board.bnum}">
+		<input type="hidden" name="content" id="temp">			
 		<div>
 			<table class="tbl" border="1">
 				<tr>

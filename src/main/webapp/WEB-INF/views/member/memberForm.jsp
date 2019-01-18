@@ -4,7 +4,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 				var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/;
-				var checkStrId = /^[A-Za-z0-9]{4,10}$/;
+				var checkStrId = /^(?=.*[0-9])(?=.*[a-zA-Z])([A-Za-z0-9]{4,10})$/;
 				var checkStrPw = /^[0-9]{4}$/;
 				var userid = $("#userid");
 				var passwd1 = $("#passwd1");
@@ -155,7 +155,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<th><span class="required" title="필수 입력">NAME</span></th>
-					<td><input type="text" name="username" id="username" maxlength="10">
+					<td><input type="text" name="username" id="username" maxlength="8">
 					<p id="result3" class="bold highlight"></p></td>
 				</tr>
 			</table>

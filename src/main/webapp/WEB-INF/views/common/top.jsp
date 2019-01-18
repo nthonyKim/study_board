@@ -8,15 +8,15 @@
 <div class="topmenu">
 	<ul>
 		<li><a href="boardList" class="aLink alignL"><img
-				src="images/icon/home.png"></a></li>
+				src="images/icon/home.png" title="board"></a></li>
 		<c:choose>
 			<c:when test="${empty user}">
-				<li><a href="loginForm"><img src="images/icon/users.png"></a></li>
+				<li><a href="loginForm"><img src="images/icon/users.png" title="user"></a></li>
 			</c:when>
 			<c:when test="${!empty user}">
 
-				<li><a href="loginCheck/mypage"><img src="images/icon/user.png"></a></li>
-				<li><a href="loginCheck/logout"><img src="images/icon/logout.png"></a></li>
+				<li><a href="loginCheck/mypage"><img src="images/icon/user.png" title="mypage"></a></li>
+				<li><a href="loginCheck/logout"><img src="images/icon/logout.png" title="logout"></a></li>
 			</c:when>
 		</c:choose>
 	</ul>

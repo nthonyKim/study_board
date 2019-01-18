@@ -57,7 +57,8 @@ select {border: 0px; border-right: 1px solid #ddd; bottom: 1px; position: relati
 .tbl th, .tbl td {padding:10px 10px;vertical-align:middle;border-bottom:1px dotted #ddd;}
 .tbl th {color:#333;font-weight:bold;}
 .tbl.Form{width:500px;}
-
+.tbl input[type="text"], input[type="password"] {border:1px solid #ddd; width: 100%; color:#666666; background: none;}
+.tbl input[type="text"]:placeholder{color: #fff;}
 
 /* align */
 .alignC {text-align:center !important;}    
@@ -88,20 +89,18 @@ textarea{resize: vertical; width:100%; height:auto;}
 .aLink {text-decoration:none; color:#666666;}
 .aLink:hover {text-decoration:underline;}
 
-/*input*/
-.tbl input[type="text"], input[type="password"] {border:1px solid #ddd; width: 100%; color:#666666; background: none;}
-.tbl input[type="text"]:placeholder{color: #fff;}
-
 /* btn */
 .btnGroup {margin-top:30px;text-align:right; margin-bottom: 30px; vertical-align: bottom;}
 .btn {padding:10px 20px;margin-right:3px;min-width:100px;height:auto;font-size:16px;cursor:pointer; }
 .mint {background:#ff5400;color:#fff;border:1px solid #e84d00;}
 .darkGray {color:#fff;background:#555;border:1px solid #4a4a4a;}
 .gray{color:#fff; background: #c0c0c0; border:1px solid #ababab;}
-.none{border:0px; background: none;}
+.none{border:0px; background: none; width: 20px;}
+.none img{opacity: 0.3;}
 a.btn {text-decoration:none;}
 
 /* etc */
+.visible{display: block;}
 .underTable{margin-top:50px;}
 .iconGroup img{width:20px; height: 20px;}
 .searchBox{vertical-align: middle; border: 1px solid #ddd; border-radius:20px; width:250px; height: 30px; box-sizing: border-box; background: none;bottom: 22px; position: relative;}

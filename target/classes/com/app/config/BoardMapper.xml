@@ -118,7 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where bnum = #{bnum}
 	</select>
 
-	<select id="boardComment" parameterType="int" resultType="Comment">
+	<!-- <select id="boardComment" parameterType="int" resultType="Comment">
 		select bnum
 		, cnum
 		, author
@@ -128,10 +128,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		board_comment
 		where bnum = #{bnum}
 		order by cnum desc
+	</select> -->
+
+	<select id="boardComment" parameterType="int" resultType="Comment">
+		select bnum
+		, cnum
+		, author
+		, content
+		, to_char(regdate, 'YY/MM/DD hh:mm:ss') regdate
+		, parent
+		FROM board_comment
+		where bnum = #{bnum}
+		ORDER BY nvl2(parent, parent, cnum), cnum asc
 	</select>
-	
-	<insert id="boardInsert" parameterType="Board">
-	
+		
+	<insert id="boardInsert" parameterType="Board">	
 		insert into board
 		( bnum
 		, title
@@ -147,8 +158,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, #{content}
 		, 0
 		, #{pub}
-		, sysdate
-		)
+		, sysdate)
 	</insert>
 
 	<update id="boardUpdate" parameterType="Board">
@@ -175,12 +185,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, cnum
 		, author
 		, content
+		, regdate
+		, parent)
+		values
+		( #{bnum} 
+		, comment_seq.NEXTVAL
+		, #{author}
+		, trim(#{content})
+		, sysdate
+		, #{parent})
+	</insert>
+	
+	<insert id="commentInsertParentNull" parameterType="Comment">
+		insert into board_comment
+		( bnum
+		, cnum
+		, author
+		, content
 		, regdate)
 		values
 		( #{bnum} 
 		, comment_seq.NEXTVAL
 		, #{author}
-		, #{content}
+		, trim(#{content})
 		, sysdate)
 	</insert>
 	

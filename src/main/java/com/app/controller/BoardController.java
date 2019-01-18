@@ -57,36 +57,36 @@ public class BoardController {
 		return "boardList";
 	}
 
+	// board 기본 C R U D
 	@RequestMapping("/boardView")
-	public ModelAndView boardView(@RequestParam(required = false, defaultValue = "1") int cntCurPage, @RequestParam int bnum) {
+	public ModelAndView boardView(@RequestParam(required = false, defaultValue = "1") int cntCurPage,
+								  @RequestParam int bnum) {
 		Board board = service.boardView(bnum);
-		//코멘트 페이지
+		// 코멘트 페이지
 		Page commentPage = service.boardComment(bnum, cntCurPage);
-		//첨부파일 데이터
+		// 첨부파일 데이터
 		List<UploadFile> list = service.fileSelect(bnum);
-		System.out.println(list);
-		
-		ModelAndView mav = new ModelAndView();		
+		System.out.println(commentPage);
+		ModelAndView mav = new ModelAndView();
 		mav.addObject("board", board);
 		mav.addObject("comment", commentPage);
 		mav.addObject("file", list);
 		mav.setViewName("boardView");
 		return mav;
-	}
-		
-	// board 기본 C U D
+	}	
+	
 	@RequestMapping("/loginCheck/boardWrite")
 	public String boardInsert() {
 		return "redirect:../boardWriteForm";
 	}
 
 	@RequestMapping(value = "/loginCheck/boardWrite", method = RequestMethod.POST)
-	public String boardInsert(UploadFile imgFile, Board board) {
-		CommonsMultipartFile chk = imgFile.getTheFile()[0];
+	public String boardInsert(UploadFile fileData, Board board) {
+		CommonsMultipartFile chk = fileData.getTheFile()[0];
 		System.out.println(chk.getOriginalFilename());
 		System.out.println(board);
 		if (chk.getOriginalFilename() != "" ) {		
-			service.fileInsert(imgFile, board);				
+			service.fileInsert(fileData, board);				
 		}else {
 			service.boardInsert(board);			
 		}
@@ -97,14 +97,12 @@ public class BoardController {
 	public String boradUpdate(@RequestParam int bnum, HttpSession session) {
 		Board board = service.boardView(bnum);
 		session.setAttribute("board", board);
-		System.out.println(board);
 		return "redirect:../boardUpdateForm";
 	}
 	
 	@RequestMapping(value="/loginCheck/boardUpdate", method=RequestMethod.POST)
 	public String boradUpdate(Board board) {
 		service.boardUpdate(board);
-		System.out.println(board);
 		return "redirect:../boardView?bnum=" + board.getBnum();
 	}
 
@@ -128,16 +126,5 @@ public class BoardController {
 		return "redirect:../boardView?bnum="+bnum;
 	}
 	
-/*	@RequestMapping("/fileDown")
-	public String fileDown(@RequestParam String fileName){		
-		File file = new File("F:\\programming\\upload", fileName);
-		String filePath = file.getPath();
-		
-		byte b[] = new byte[4096];
-		FileInputStream in = new FileInputStream(filePath);
-
 	
-		
-		return "boardView";	
-	}*/
 }

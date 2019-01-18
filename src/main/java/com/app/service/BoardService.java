@@ -58,9 +58,9 @@ public class BoardService {
 	}
 
 	@Transactional
-	public void fileInsert(UploadFile imgFile, Board board) {
+	public void fileInsert(UploadFile dataFile, Board board) {
 		dao.boardInsert(board);
-		dao.fileInsert(imgFile);
+		dao.fileInsert(dataFile);
 	}
 
 	public List<UploadFile> fileSelect(int bnum) {

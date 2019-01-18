@@ -13,7 +13,6 @@
 		$("#del").on("click", function(e) {
 			var txt = confirm("삭제하시겠습니까?");
 			if (txt == true) {
-				//서버 없이 앞단에서 파일이름 보내기
 				var num = $(this).attr("data-bnum");
 				location.href = "loginCheck/boardDelete?bnum=" + num;
 			} else {
@@ -93,7 +92,17 @@
 				});
 			}
 		})//
-
+		
+		//대댓글 작성 상자
+		$(".reCmt").on("click", function(e) {			
+			var cnum = $(this).attr("data-cnum");
+			$("#parent").val(cnum);
+			var reCmtTr = $("#reComment");
+			console.log($("#parent").val());
+			reCmtTr.css("display","");
+			$(reCmtTr).insertAfter($("#commentNum"+cnum));			
+		})
+		
 		//공백 시 submit X
 		$("#cmtSub").on("submit", function(e) {
 			var content = $("#content");
@@ -103,7 +112,15 @@
 				e.preventDefault();
 			}
 		})
-
+		
+ 		$("#reCmtSub").on("submit", function(e) { 			
+			var content = $("#reContent");
+			if (content.val() == "") {
+				alert("내용을 입력하세요");
+				content.focus();
+				e.preventDefault();
+			}
+		}) 
 	})
 </script>	
 	<div>
@@ -151,29 +168,67 @@
 				</c:if>
 					<table class="tbl">
 					<colgroup>
-						<col style="width: 12%">
+						<col style="width: 18%">
 						<col style="width: *">
 						<col style="width: 20%">
-						<col style="width: 12%">
+						<col style="width: 10%">
 					</colgroup>
-						<c:forEach var="cmt" items="${comment.list}">
-							<tr id="commentNum${cmt.cnum}">
-								<td>
-								<span class="">${cmt.author}</span></td>
-								 <td><span><c:out value="${cmt.content}"/></span></td>
-								<c:choose>
-									<c:when test="${user.userid eq 'admin' || user.username eq cmt.author}">
-										<td class="alignR"> ${cmt.regdate}</td>
-										<td class="alignR "><button id="cmtDel${cmt.cnum}" data-cnum="${cmt.cnum}" class="gray cmtDel">삭제</button></td>											
+					<c:forEach var="cmt" items="${comment.list}">
+						<tr id="commentNum${cmt.cnum}">
+							<td><c:if test="${cmt.parent != 0}">
+									<span class="recomment xsmall">&nbsp;└&nbsp;</span>
+								</c:if> <span class="">${cmt.author}</span></td>
+							<td><c:out value="${cmt.content}" /></td>
+							<c:choose>
+								<c:when test="${user.userid eq 'admin' || user.username eq cmt.author}">
+									<td class="alignR">${cmt.regdate}</td>
+									<td class="alignR">
+										<!-- 부모값이 없으면 대댓글 버튼이 보임 -->
+										<c:if test="${cmt.parent eq 0}">
+										<button id="reCmt${cmt.cnum}" data-cnum="${cmt.cnum}" class="reCmt none">
+											<img src="images/icon/enter.png">
+										</button></c:if>
+										<button id="cmtDel${cmt.cnum}" data-cnum="${cmt.cnum}" class="cmtDel none">
+											<img src="images/icon/trash.png">
+										</button>
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td class="alignR">${cmt.regdate}</td>
+									<!-- 부모값이 없으면 대댓글 버튼이 보임 -->
+									<c:if test="${cmt.parent eq 0}">
+									<td class="alignR"><button id="reCmt${cmt.cnum}" data-cnum="${cmt.cnum}" class="reCmt none">
+											<img src="images/icon/enter.png">
+										</button></td></c:if>
+								</c:otherwise>
+							</c:choose>
+						</tr>
+					</c:forEach>
+					<!-- toggle reCmt  -->
+					<tr class="reCommentHide" id="reComment" style="display: none">
+						<form action="loginCheck/commentInsert" method="post" id="reCmtSub">
+							<input type="hidden" id="parent" name="parent" value="">
+							<input type="hidden" value="${board.bnum}" name="bnum">
+							<td><input type="text" name="author" id="author" value="${user.username}" onfocus="this.blur()" readonly="readonly"></td>
+							<td colspan="2"><c:choose>
+									<c:when test="${empty user}">
+										<input type="text" name="content" maxlength="600" placeholder="로그인이 필요한 서비스 입니다">
 									</c:when>
 									<c:otherwise>
-										<td colspan="2" class="alignR"> ${cmt.regdate}</td>
+										<input type="text" name="content" id="reContent" maxlength="600" placeholder="내용을 입력하세요">
 									</c:otherwise>
-								</c:choose>
-									
-							</tr>
-						</c:forEach>
-					</table>
+								</c:choose></td>
+							<td class="alignR">
+								<button class="mint" type="submit">완료</button>
+							</td>
+						</form>
+					</tr>
+
+
+
+				</table>
+					
+					
 
 					<!-- 코멘트 페이징 -->
 					<input type="hidden" value="${comment.currentPage}" id="curpage">
@@ -194,7 +249,7 @@
 					<td><input type="text" name="author" id="author" value="${user.username}" onfocus="this.blur()" readonly="readonly"></td>
 					<td><c:choose>
 							<c:when test="${empty user}">
-								<input type="text" name="content" id="content" maxlength="600" placeholder="로그인이 필요한 서비스 입니다">
+								<input type="text" name="content" maxlength="600" placeholder="로그인이 필요한 서비스 입니다">
 							</c:when>
 							<c:otherwise>
 								<input type="text" name="content" id="content" maxlength="600" placeholder="내용을 입력하세요">
