@@ -118,18 +118,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where bnum = #{bnum}
 	</select>
 
-	<!-- <select id="boardComment" parameterType="int" resultType="Comment">
-		select bnum
-		, cnum
-		, author
-		, content
-		, to_char(regdate, 'YY/MM/DD hh:mm:ss') regdate
-		from
-		board_comment
-		where bnum = #{bnum}
-		order by cnum desc
-	</select> -->
-
 	<select id="boardComment" parameterType="int" resultType="Comment">
 		select bnum
 		, cnum
@@ -139,7 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		, parent
 		FROM board_comment
 		where bnum = #{bnum}
-		ORDER BY nvl2(parent, parent, cnum), cnum asc
+		ORDER BY nvl(parent, cnum), cnum asc
 	</select>
 		
 	<insert id="boardInsert" parameterType="Board">	

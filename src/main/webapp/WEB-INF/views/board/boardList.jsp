@@ -26,14 +26,11 @@
 			var key = "${searching.keyWord}"
 			var total = record / 12;
 			
-			console.log(sea, key)
 			if (record % 12 != 0)
 				total = Math.ceil(total);
-			console.log(total)
 			var paging = "";
 	
 			for (var i = 1; i <= total; i++) {
-				console.log(i);
 				if (i == curpage) {
 					paging = paging + i + "&nbsp;&nbsp;";
 				} else if(sea != "" || key != ""){

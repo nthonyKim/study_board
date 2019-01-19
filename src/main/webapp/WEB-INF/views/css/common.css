@@ -96,11 +96,10 @@ textarea{resize: vertical; width:100%; height:auto;}
 .darkGray {color:#fff;background:#555;border:1px solid #4a4a4a;}
 .gray{color:#fff; background: #c0c0c0; border:1px solid #ababab;}
 .none{border:0px; background: none; width: 20px;}
-.none img{opacity: 0.3;}
+.none img{opacity: 0.5;}
 a.btn {text-decoration:none;}
 
 /* etc */
-.visible{display: block;}
 .underTable{margin-top:50px;}
 .iconGroup img{width:20px; height: 20px;}
 .searchBox{vertical-align: middle; border: 1px solid #ddd; border-radius:20px; width:250px; height: 30px; box-sizing: border-box; background: none;bottom: 22px; position: relative;}

@@ -36,19 +36,16 @@
 			var record = "${comment.totalCount}"
 			var total = record / 24;
 			var bnum = "${board.bnum}";
-
 			if (record % 24 != 0) {
 				total = Math.ceil(total)
 			}
 			;
 			var curpage = $("#curpage").val();
 			var paging = "";
-
 			for (var i = 1; i <= total; i++) {
+				console.log(i)
 				if (i == curpage) {
 					paging = paging + i + "&nbsp;&nbsp;";
-				} else if (i % 10 == 0) {
-
 				} else {
 					paging = paging
 							+ "<a href='/190101_board/boardView?bnum="
@@ -77,14 +74,16 @@
 					},
 					success : function(data, status, xhr) {
 						if (data == "success") {
-							ajaxCallCount = ajaxCallCount+1;
+							/* ajaxCallCount = ajaxCallCount+1;
 							console.log(ajaxCallCount);
 							$("#commentNum" + cnum).remove();							
 							cmtCount = cmtCount-ajaxCallCount;
-							$(".cmtCount").text("댓글 "+(cmtCount))								
+							$(".cmtCount").text("댓글 "+(cmtCount))
+							 */
+							//대댓글 삭제 기능 때문에 임시로 새로고침
+							location.reload()
 							
-							//$("#comment").load(" #comment"); 											
-						}
+							}
 					},
 					error : function(xhr, status, error) {
 						console.log(error);
@@ -98,7 +97,6 @@
 			var cnum = $(this).attr("data-cnum");
 			$("#parent").val(cnum);
 			var reCmtTr = $("#reComment");
-			console.log($("#parent").val());
 			reCmtTr.css("display","");
 			$(reCmtTr).insertAfter($("#commentNum"+cnum));			
 		})
@@ -176,30 +174,28 @@
 					<c:forEach var="cmt" items="${comment.list}">
 						<tr id="commentNum${cmt.cnum}">
 							<td><c:if test="${cmt.parent != 0}">
-									<span class="recomment xsmall">&nbsp;└&nbsp;</span>
+									<span class="recomment xsmall ">&nbsp;<img src="images/icon/enter.png" style="opacity: 0.2">&nbsp;</span>
 								</c:if> <span class="">${cmt.author}</span></td>
 							<td><c:out value="${cmt.content}" /></td>
 							<c:choose>
 								<c:when test="${user.userid eq 'admin' || user.username eq cmt.author}">
 									<td class="alignR">${cmt.regdate}</td>
 									<td class="alignR">
-										<!-- 부모값이 없으면 대댓글 버튼이 보임 -->
+										<!-- 부모값이 없으면 대댓글 기능 활성화 -->
 										<c:if test="${cmt.parent eq 0}">
-										<button id="reCmt${cmt.cnum}" data-cnum="${cmt.cnum}" class="reCmt none">
-											<img src="images/icon/enter.png">
+										<button id="reCmt${cmt.cnum}" data-cnum="${cmt.cnum}" class="reCmt none" title="reply"> <img src="images/icon/write.png">
 										</button></c:if>
-										<button id="cmtDel${cmt.cnum}" data-cnum="${cmt.cnum}" class="cmtDel none">
-											<img src="images/icon/trash.png">
+										<button id="cmtDel${cmt.cnum}" data-cnum="${cmt.cnum}" class="cmtDel none" title="delete"> <img src="images/icon/trash.png">
 										</button>
 									</td>
 								</c:when>
 								<c:otherwise>
 									<td class="alignR">${cmt.regdate}</td>
-									<!-- 부모값이 없으면 대댓글 버튼이 보임 -->
+									<!-- 부모값이 없으면 대댓글 기능 활성화 -->
+									<td class="alignR">
 									<c:if test="${cmt.parent eq 0}">
-									<td class="alignR"><button id="reCmt${cmt.cnum}" data-cnum="${cmt.cnum}" class="reCmt none">
-											<img src="images/icon/enter.png">
-										</button></td></c:if>
+									<button id="reCmt${cmt.cnum}" data-cnum="${cmt.cnum}" class="reCmt none" title="reply"> <img src="images/icon/write.png">
+										</button></c:if></td>
 								</c:otherwise>
 							</c:choose>
 						</tr>
